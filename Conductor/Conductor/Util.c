@@ -158,6 +158,13 @@ HSV rgbToHsv(RGB rgb)
     return hsv;
 }
 
+int charsToUint16(char charArray[], uint16_t uintArray[], int numChars) {
+    // TODO: Turn the char array into bytes and return size of byte array or -1 if failure
+
+    return numChars / 2; // TODO: Return size of byte array or -1 if failure
+}
+
+
 BOOL areEqualHsv(HSV hsv1, HSV hsv2)
 {
     return

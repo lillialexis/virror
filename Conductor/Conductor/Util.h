@@ -78,6 +78,8 @@ typedef struct {
 RGB hsvToRgb (HSV hsv);
 HSV rgbToHsv(RGB rgb);
 
+int charsToUint16(char charArray[], uint16_t uintArray[], int numChars);
+
 BOOL areEqualHsv(HSV hsv1, HSV hsv2);
 BOOL areEqualRgb(RGB rgb1, RGB rgb2);
 

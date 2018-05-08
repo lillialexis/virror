@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <sys/time.h>
+#include <string.h>
 #include "Includes.h"
 #include "Serial.h"
 
@@ -15,22 +16,23 @@
 
 int serialDevice = -1;
 
-long programStartTime   = 0;
-long loopStartTime      = 0;
-long idealLoopEndTime   = 0;
-long timeAfterRender    = 0;
-long drawStartTime      = 0;
-int  lastDrawDuration   = 0;
-int  lastRenderDuration = 0;
-int  drawTimeCMA        = 0;
-int  renderTimeCMA      = 0;
+long programStartTime     = 0;
+long loopStartTime        = 0;
+long idealLoopEndTime     = 0;
+long timeAfterRender      = 0;
+long doSerialStartTime    = 0;
+int  lastDoSerialDuration = 0;
+int  lastRenderDuration   = 0;
+int  doSerialTimeCMA      = 0;
+int  renderTimeCMA        = 0;
 
 u_long frameNumber;
 
 double globalBrightness = 0.75;
 
-RGB LEDs[LED_WIDTH * LED_HEIGHT];
-char scannerBuffer[SCANNER_WIDTH * SCANNER_HEIGHT * SCANNER_MEASUREMENT_SIZE];
+RGB ledArray[TOTAL_LEDS];
+char scannerInputBuffer[SCANNER_WIDTH * SCANNER_HEIGHT * SCANNER_MEASUREMENT_SIZE];
+uint16_t scannerValues[SCANNER_WIDTH * SCANNER_HEIGHT];
 
 //long currentTimeInMicroseconds()
 //{
@@ -42,15 +44,14 @@ char scannerBuffer[SCANNER_WIDTH * SCANNER_HEIGHT * SCANNER_MEASUREMENT_SIZE];
 //}
 
 /* Delta in microseconds between the time value passed in and the time that the program launched (program time delta) */
-int ptd(long someTimeVal)
-{
+int ptd(long someTimeVal) {
     return (int) (someTimeVal - programStartTime);
 }
 
 /* Return 0 if successful, 1 otherwise. */
-int updateLeds(u_long frameNumber)
-{
-
+int updateLeds(u_long frameNumber) {
+    renderFrame(ledArray, frameNumber);
+    addScannerValues(ledArray, scannerValues);
 
     return 0;
 }
@@ -64,101 +65,46 @@ uint8_t ColorCorrectLookup[256] = {0,	1,	1,	1,	2,	2,	2,	3,	3,	4,	4,	4,	5,	5,	5,	
 #ifdef REAL_HARDWARE
 
 /* Return 0 if successful, 1 otherwise. */
-int draw(Dodec *dodec, u_long frameNumber)
-{
+int doSerial(u_long frameNumber) {
     int status = -1;
     char star = '*';
 
+    /* Write a star */
     status = write_data(serialDevice, &star, sizeof(star));
     if (status < 0) {
-        printf("Error writing to serial device!\n");
         return 1;
     }
 
-    int numberOfCharactersToSend = 181 * 16 * 6; /* 17376 */
+    // TODO: Jesse, swizzle code goes here!!
 
-    char readBuffer[numberOfCharactersToSend];
-    char modifiedBuffer[50];
+    /* Send LEDs */
+    status = write_data(serialDevice, ledArray, TOTAL_LEDS * sizeof(RGB));
+    if (status < 0) {
+        return 1;
+    }
 
-    memset(&readBuffer, '0', numberOfCharactersToSend);
-    memset(&modifiedBuffer, '0', 50);
+    char result;
 
-    /* define temp holder for RGB data */
-    char grabr = 0;
-    char grabg = 0;
-    char grabb = 0;
-    uint8_t sort, index, light, group, led_offset, group_offset = 0; /* vars used in routine */
+    /* Read a star */
+    status = read_data(serialDevice, &result, sizeof(result));
+    if (status < 0) {
+        return status;
+    }
 
-    led_offset = 0;
-    while (group_offset < 2)
-    {
-        index = sort = 0; /* start at lowest group offset and reset input buffer pointer */
+    if (result != '*') {
+        printf("Unexpected read result\n");
+    }
 
-        /* load the input buffer */
-        while (sort < 24)
-        {
-            if (index < 12)
-            { /* data only generated for 12 panels */
-                __unsafe_unretained LED *led = quickLEDs[group_offset + index][led_offset];
+    /* Read scanner values */
+    status = read_data(serialDevice, scannerInputBuffer, SCANNER_WIDTH * SCANNER_HEIGHT * SCANNER_MEASUREMENT_SIZE * sizeof(char));
+    if (status < 0) {
+        return status;
+    }
 
-                RGB rgb  = [led getCurrentRGB:frameNumber];
-
-                readBuffer[sort++] = (char)(((double)ColorCorrectLookup[rgb.r]) * globalBrightness);
-                readBuffer[sort++] = (char)(((double)ColorCorrectLookup[rgb.g]) * globalBrightness);
-                readBuffer[sort++] = (char)(((double)ColorCorrectLookup[rgb.b]) * globalBrightness);
-
-            }
-            else
-            { /* fill last two panels data with 0's */
-                readBuffer[sort++] = 0;
-                readBuffer[sort++] = 0;
-                readBuffer[sort++] = 0;
-            }
-
-            index += 2;
-        }
-
-        led_offset++; /* move led offset for next loop */
-
-        /* catch reaching the end of the first panel */
-        if (led_offset == 181)
-        {
-            led_offset = 0;
-            group_offset++;  /* when this reaches 2 the iterations has completed */
-        }
-
-        /* clear buffer */
-        memset(&modifiedBuffer, 0, 24);
-
-        sort = light = 0;
-        while (light < 8)
-        {
-            grabr = readBuffer[sort++]; /* get red value   */
-            grabg = readBuffer[sort++]; /* get green value */
-            grabb = readBuffer[sort++]; /* get blue value  */
-
-            index = 0;
-
-            while (index < 8)
-            {
-                if (grabr & (1 << index)) {modifiedBuffer[RED_OFFSET + (7 - index)] |= (1 << light);}
-                if (grabg & (1 << index)) {modifiedBuffer[GREEN_OFFSET + (7 - index)] |= (1 << light);}
-                if (grabb & (1 << index)) {modifiedBuffer[BLUE_OFFSET + (7 - index)] |= (1 << light);}
-
-                index++;
-            }
-
-            light++;
-        }
-
-        /* use the data */
-
-        status = write_data(serialDevice, modifiedBuffer, 24);
-        if (status < 0)
-        {
-            printf("Error writing to serial device!\n");
-            return 1;
-        }
+    /* Convert scanner chars to bytes */
+    status = charsToUint16(scannerInputBuffer, scannerValues, SCANNER_WIDTH * SCANNER_HEIGHT * SCANNER_MEASUREMENT_SIZE);
+    if (status < 0) {
+        return status;
     }
 
     return 0;
@@ -167,26 +113,13 @@ int draw(Dodec *dodec, u_long frameNumber)
 #else
 
 /* Return 0 if successful, 1 otherwise. */
-int draw(Dodec *dodec, u_long frameNumber)
+int doSerial(u_long frameNumber)
 {
     int status = -1;
-    char star = '*';
-
-    for (NSUInteger i = 0; i < dodec.NUM_BOARDS; i++) {
-        for (NSUInteger j = 0; j < dodec.NUM_LEDS; j++) {
-            NSUInteger index = (i * dodec.NUM_LEDS) + j;
-
-            LED *led = [((Board *)[dodec.boards objectAtIndex:i]).leds objectAtIndex:j];
-
-            dodec.buffer[index] = [led getCurrentRGB:frameNumber];
-        }
-    }
 
     /* Status should be equal to the number of bytes sent, or -1 if there was an error. */
-    status = write_data(serialDevice, dodec.buffer, dodec.CURRENTLY_RENDERING_COUNT * sizeof(RGB));
-
+    status = write_data(serialDevice, ledArray, TOTAL_LEDS * sizeof(RGB));
     if (status < 0) {
-        printf("Error writing to serial device!\n");
         return 1;
     }
 
@@ -196,24 +129,23 @@ int draw(Dodec *dodec, u_long frameNumber)
 #endif
 
 /* Return 0 if successful, 1 otherwise. */
-int loop(Dodec *dodec)
-{
+int loop() {
     int status = 0;
 
     while (1) {
 
         /* Capture the start time of our current loop, and calculate the time when this loop would ideally end,
-         * which is the current start time + the ideal loop duration (in MS) - however long our last draw function took. */
+         * which is the current start time + the ideal loop duration (in MS) - however long our last doSerial function took. */
         loopStartTime = currentTimeInMicroseconds();
-        idealLoopEndTime = loopStartTime + LOOP_TIME - lastDrawDuration;
+        idealLoopEndTime = loopStartTime + LOOP_TIME - lastDoSerialDuration;
 
 #ifdef SHOW_RENDER_TIMES
         printf("Looping.\n\t\tStart time: %lu (%i Ms after program start time)\n\t\tIdeal duration for this loop:" \
-                        "%li Ms\n\t\tIdeal time to begin next draw: %lu (%i Ms after program start time)\n",
-               loopStartTime, ptd(loopStartTime), (long)(LOOP_TIME - lastDrawDuration), idealLoopEndTime, ptd(idealLoopEndTime));
+                        "%li Ms\n\t\tIdeal time to begin next doSerial: %lu (%i Ms after program start time)\n",
+                loopStartTime, ptd(loopStartTime), (long)(LOOP_TIME - lastDoSerialDuration), idealLoopEndTime, ptd(idealLoopEndTime));
 #endif
 
-        status = updateLeds(dodec, frameNumber);
+        status = updateLeds(frameNumber);
         if (status != 0) {
             return 1;
         }
@@ -229,7 +161,6 @@ int loop(Dodec *dodec)
         /* If it took up the whole duration of our loop, that's bad. Print this. */
         //if (timeAfterRender >= idealLoopEndTime)
         //   printf("RENDERING TAKING TOO LONG!! (%li Ms, %.4f s)\n", lastRenderDuration, ((double)(lastRenderDuration)/1000000.0));
-
 //#endif
 
         useconds_t sleepTime = (useconds_t) (idealLoopEndTime > timeAfterRender ? idealLoopEndTime - timeAfterRender : 0);
@@ -242,36 +173,41 @@ int loop(Dodec *dodec)
         usleep(sleepTime);
 #endif
 
-        drawStartTime = currentTimeInMicroseconds();
+        doSerialStartTime = currentTimeInMicroseconds();
 
-        status = draw(dodec, frameNumber);
+        status = doSerial(frameNumber);
         if (status != 0) {
             return 1;
         }
 
-        lastDrawDuration = (int) (currentTimeInMicroseconds() - drawStartTime);
+        lastDoSerialDuration = (int) (currentTimeInMicroseconds() - doSerialStartTime);
 
 #ifdef SHOW_RENDER_TIMES
-        DLog(@"");
 
-        printf("Draw duration: %i\n", lastDrawDuration);
+        printf("DoSerial duration: %i\n", lastDoSerialDuration);
 //#endif
 
-        renderTimeCMA = (int)(((long)lastRenderDuration + ((frameNumber - 1) * (long)renderTimeCMA)) / (frameNumber));
-        drawTimeCMA   = (int)(((long)lastDrawDuration   + ((frameNumber - 1) * (long)drawTimeCMA))   / (frameNumber));
+        renderTimeCMA   = (int)(((long)lastRenderDuration   + ((frameNumber - 1) * (long)renderTimeCMA))   / (frameNumber));
+        doSerialTimeCMA = (int)(((long)lastDoSerialDuration + ((frameNumber - 1) * (long)doSerialTimeCMA)) / (frameNumber));
 
-        if (lastDrawDuration + (timeAfterRender - loopStartTime) > LOOP_TIME)
-            printf("FRAME TAKING TOO LONG!! Render time: %i Ms (%.4f s), draw time: %i Ms (%.4f s), effective frame rate: ~%.2f fps\n",
-                    lastRenderDuration, M2s(lastRenderDuration), lastDrawDuration, M2s(lastDrawDuration),
-                    (1.0 / M2s((lastDrawDuration + (timeAfterRender - loopStartTime)))));
-            //printf("DRAWING TAKING TOO LONG!! (%i Ms)\n", lastDrawDuration);
+        if (lastDoSerialDuration + (timeAfterRender - loopStartTime) > LOOP_TIME)
+            printf("FRAME TAKING TOO LONG!! Render time: %i Ms (%.4f s), doSerial time: %i Ms (%.4f s), effective frame rate: ~%.2f fps\n",
+                    lastRenderDuration, M2s(lastRenderDuration), lastDoSerialDuration, M2s(lastDoSerialDuration),
+                    (1.0 / M2s((lastDoSerialDuration + (timeAfterRender - loopStartTime)))));
+        //printf("SERIAL TAKING TOO LONG!! (%i Ms)\n", lastDoSerialDuration);
 
         printf("Average render duration: %i (%.4f s), ", renderTimeCMA, M2s(renderTimeCMA));
-        printf("average draw duration: %i (%.4f s)\n", drawTimeCMA, M2s(drawTimeCMA));
+        printf("average doSerial duration: %i (%.4f s)\n", doSerialTimeCMA, M2s(doSerialTimeCMA));
 #endif
 
         frameNumber++;
     }
+}
+
+void setUp() {
+    memset(&ledArray,           0, TOTAL_LEDS * sizeof(RGB));
+    memset(&scannerInputBuffer, 0, SCANNER_WIDTH * SCANNER_HEIGHT * SCANNER_MEASUREMENT_SIZE * sizeof(char));
+    memset(&scannerValues,      0, SCANNER_WIDTH * SCANNER_HEIGHT * sizeof(uint16_t));
 }
 
 int main(int argc, const char * argv[]) {
@@ -282,16 +218,10 @@ int main(int argc, const char * argv[]) {
     printf("Program starting at: %lu\n", programStartTime);
 #endif
 
-    Dodec *dodec = [Dodec dodec];
-
-    /* Just to cut down on the time it takes to go through the array LED during draw, I'm short-cutting their pointer addresses to a quick c-lookup-array in this file */
-    for (Board *board in dodec.boards)
-    for (LED *led in board.leds)
-    quickLEDs[board.index][led.index] = led;
-
+    setUp();
 
 #ifdef REAL_HARDWARE
-    #ifdef NOT_RASPI
+#ifdef NOT_RASPI
     serialDevice = new_serial_device("/dev/cu.usbmodem1395821");
 #else
     serialDevice = new_serial_device("/dev/ttyACM0");
@@ -308,7 +238,7 @@ int main(int argc, const char * argv[]) {
     /*static u_long*/ frameNumber = 1;
 
     /* Should only exit on error... */
-    int status = loop(dodec);
+    int status = loop();
 
     return status;
 

@@ -5,7 +5,8 @@
 #ifndef VIRROR_CONDUCTOR_INCLUDES_H
 #define VIRROR_CONDUCTOR_INCLUDES_H
 
-#import "Util.h"
-#import "Globals.h"
+#include "Util.h"
+#include "Globals.h"
+#include "Rendering.h"
 
 #endif //VIRROR_CONDUCTOR_INCLUDES_H
