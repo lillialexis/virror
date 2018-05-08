@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		23D12ACD20A1055E00DDE695 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 23D12ACC20A1055E00DDE695 /* main.c */; };
+		623480C957CB9B79ECA16842 /* Rendering.c in Sources */ = {isa = PBXBuildFile; fileRef = 623481EE366C85FF5909A3D9 /* Rendering.c */; };
+		623489682EF9125505BB0736 /* Globals.c in Sources */ = {isa = PBXBuildFile; fileRef = 6234879E865A81F5BA24337D /* Globals.c */; };
+		62348BE27D4D499B6F2CA596 /* Serial.c in Sources */ = {isa = PBXBuildFile; fileRef = 623480A02FF6335DDAA5DDCD /* Serial.c */; };
+		62348C9157DE94A4814AFA80 /* Util.c in Sources */ = {isa = PBXBuildFile; fileRef = 62348740E235E9AECA001B0D /* Util.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +29,15 @@
 /* Begin PBXFileReference section */
 		23D12AC920A1055E00DDE695 /* Conductor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Conductor; sourceTree = BUILT_PRODUCTS_DIR; };
 		23D12ACC20A1055E00DDE695 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		623480A02FF6335DDAA5DDCD /* Serial.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Serial.c; sourceTree = "<group>"; };
+		623480B3D6BF7AC37680F577 /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
+		623481C857DA392702C103F8 /* Includes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Includes.h; sourceTree = "<group>"; };
+		623481EE366C85FF5909A3D9 /* Rendering.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Rendering.c; sourceTree = "<group>"; };
+		623484F35D008B69CD628650 /* Rendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rendering.h; sourceTree = "<group>"; };
+		623486805846B99EF8D6601A /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		62348740E235E9AECA001B0D /* Util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Util.c; sourceTree = "<group>"; };
+		6234879E865A81F5BA24337D /* Globals.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Globals.c; sourceTree = "<group>"; };
+		62348F9D5D22FC72B4B7F305 /* Serial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serial.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +71,15 @@
 			isa = PBXGroup;
 			children = (
 				23D12ACC20A1055E00DDE695 /* main.c */,
+				62348F9D5D22FC72B4B7F305 /* Serial.h */,
+				623480A02FF6335DDAA5DDCD /* Serial.c */,
+				623480B3D6BF7AC37680F577 /* Globals.h */,
+				6234879E865A81F5BA24337D /* Globals.c */,
+				623481C857DA392702C103F8 /* Includes.h */,
+				623486805846B99EF8D6601A /* Util.h */,
+				62348740E235E9AECA001B0D /* Util.c */,
+				623481EE366C85FF5909A3D9 /* Rendering.c */,
+				623484F35D008B69CD628650 /* Rendering.h */,
 			);
 			path = Conductor;
 			sourceTree = "<group>";
@@ -119,6 +141,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				23D12ACD20A1055E00DDE695 /* main.c in Sources */,
+				62348BE27D4D499B6F2CA596 /* Serial.c in Sources */,
+				623489682EF9125505BB0736 /* Globals.c in Sources */,
+				62348C9157DE94A4814AFA80 /* Util.c in Sources */,
+				623480C957CB9B79ECA16842 /* Rendering.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
