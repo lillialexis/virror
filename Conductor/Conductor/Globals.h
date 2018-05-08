@@ -6,25 +6,9 @@
 #define VIRROR_CONDUCTOR_GLOBALS_H
 
 #include <sys/types.h>
+#include "Defines.h"
 #include "Util.h"
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/* * * * * * * * * * * * * * * * * * * * * Flow control * * * * * * * * * * * * * * * * * * * **/
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define REAL_HARDWARE
-#define REALLY_WRITING
-
-#define SHOW_RENDER_TIMES
-#define WITH_LESS_FREQUENCY
-#define ONLY_WHEN_BAD
-
-#ifdef WITH_LESS_FREQUENCY
-#ifdef REALLY_WRITING
-#define PRINT_FREQUENCY 20
-#else
-#define PRINT_FREQUENCY 100
-#endif
-#endif
+#include "Modes.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /* * * * * * * * * * * * * * * * * * Frame-rate/Loop stuff * * * * * * * * * * * * * * * * * * */
@@ -33,27 +17,74 @@ extern u_long frameNumber; // TODO: Make this better controlled (i.e., only main
 extern int    totalLoopDuration;
 extern int    timeToExit;
 
+//extern int menuClock;
+//extern int screenClock;
+//extern int bluetoothClock;
 
-#ifdef REAL_HARDWARE
-#define DEFAULT_FRAME_RATE 60
-#else
-#define DEFAULT_FRAME_RATE 15
-#endif
-#define LOOP_TIME  (1000000 / DEFAULT_FRAME_RATE) /* In microseconds: 1,000,000 / FRAME_RATE */
+//RGB ledArray [LED_DISPLAY_SIZE];
 
-#define FRAME_RATE_EMA_WEIGHT_TIME_FACTOR 300 /* Use the last 300 frames to calculate the average */
+Clock getAlphaClock();
+Clock getColorClock();
 
-#define LED_WIDTH      64
-#define LED_HEIGHT     48
-#define TOTAL_LEDS     (LED_WIDTH * LED_HEIGHT)
+void updateClocks();
+void updateWaves();
 
-#define SCANNER_WIDTH  80
-#define SCANNER_HEIGHT 14
-#define SCANNER_MEASUREMENT_SIZE 4
+#define WAVE_SET_SIZE 1//PATTERN_COUNT
+extern Wave waveSets [WAVE_SET_SIZE];
 
-#define NUMBER_OF_ROWS_WIRED_IN_SEQUENCE 6
-#define NUMBER_OF_CHANNELS 8
-#define NUMBER_OF_LEDS_PER_CHANNEL  (TOTAL_LEDS / 8)
-#define TOTAL_NUMBER_OF_COLOR_CHARS (NUMBER_OF_LEDS_PER_CHANNEL * NUMBER_OF_CHANNELS * 6)
+extern HSV customColor;
+
+extern uint8_t effectFlags;     //bit flags defines what effects are used
+
+ColorMode getColorMode();
+void setColorMode(ColorMode mode);
+
+AlphaMode getAlphaMode();
+void setAlphaMode(AlphaMode mode);
+
+void setMotionMode(MotionMode mode);
+MotionMode getMotionMode();
+
+//void loadBrightness();
+//void saveBrightness();
+
+//uint8_t getBrightness();
+//void setBrightness(uint8_t mode);
+
+uint8_t getGlobalIntensity();
+
+uint8_t getEffectFlags();
+void setEffectFlags(uint8_t flag);
+
+//uint8_t getLoadPos();
+//void setLoadPos(uint8_t mode);
+//
+//uint8_t getSavePos();
+//void setSavePos(uint8_t mode);
+
+#define SOUND_BUFFER_SIZE 50
+extern uint8_t soundBuffer[SOUND_BUFFER_SIZE];
+extern uint8_t soundPointer;
+extern Sound soundResults;
+extern Sound soundGain;
+extern Sound soundDecayLoops;
+#define SOUND_DECAY_LOOP_RESET FRAME_RATE * 5
+#define SOUND_DECAY_RATE -1
+
+//extern uint8_t EEMEM colorPreset[10];
+//extern uint8_t EEMEM patternPreset[10];
+//extern uint8_t EEMEM motionPreset[10];
+//extern uint8_t EEMEM effectPreset[10];
+//extern uint8_t EEMEM brightSave;
+//extern uint8_t EEMEM lastPreset;
+//extern uint8_t EEMEM safePreset;
+
+#define PRINT_BUFFER_SIZE 16
+extern const char printBufferLine1[PRINT_BUFFER_SIZE + 1];
+extern const char printBufferLine2[PRINT_BUFFER_SIZE + 1];
+void clearPrintBuffer(char *printBuffer);
+
+
+
 
 #endif //VIRROR_CONDUCTOR_GLOBALS_H

@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "Globals.h"
+#include "Defines.h"
 
 //#define POSIX
 //#ifdef POSIX
@@ -56,24 +57,24 @@ int getRandomCurveHigh(int min, int max);
 int getRandomCurveLow(int min, int max);
 int getRandomCurveMid(int min, int max);
 
-typedef struct {
-    __uint8_t r;
-    __uint8_t g;
-    __uint8_t b;
-} RGB;
-
-typedef struct {
-    __uint8_t r;
-    __uint8_t g;
-    __uint8_t b;
-    __uint8_t w;
-} RGBW;
-
-typedef struct {
-    __uint8_t h;
-    __uint8_t s;
-    __uint8_t v;
-} HSV;
+//typedef struct {
+//    __uint8_t r;
+//    __uint8_t g;
+//    __uint8_t b;
+//} RGB;
+//
+//typedef struct {
+//    __uint8_t r;
+//    __uint8_t g;
+//    __uint8_t b;
+//    __uint8_t w;
+//} RGBW;
+//
+//typedef struct {
+//    __uint8_t h;
+//    __uint8_t s;
+//    __uint8_t v;
+//} HSV;
 
 RGB hsvToRgb (HSV hsv);
 HSV rgbToHsv(RGB rgb);

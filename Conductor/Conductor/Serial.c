@@ -14,10 +14,6 @@
 int	write_data(int fileDescriptor, const void *data, size_t size)
 {
 #ifdef REALLY_WRITING
-    //    static long printCounter = 0;
-//    printf(".");
-//    if (printCounter++ % 150 == 0)
-//        printf("\n");
 
     int n;
     n = (int) write(fileDescriptor, data, size);
