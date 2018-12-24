@@ -34,15 +34,6 @@ RGB ledArray[TOTAL_LEDS];
 char scannerInputBuffer[SCANNER_WIDTH * SCANNER_HEIGHT * SCANNER_MEASUREMENT_SIZE];
 uint16_t scannerValues[SCANNER_WIDTH * SCANNER_HEIGHT];
 
-//long currentTimeInMicroseconds()
-//{
-//    struct timeval time;
-//    gettimeofday(&time, NULL);
-//    long micros = (time.tv_sec * 1000000) + (time.tv_usec);
-//
-//    return micros;
-//}
-
 /* Delta in microseconds between the time value passed in and the time that the program launched (program time delta) */
 int ptd(long someTimeVal) {
     return (int) (someTimeVal - programStartTime);

@@ -10,6 +10,9 @@
 #define COLORVALUE_H_
 
 
-RGB renderColorValue(uint8_t intensity, Coordinate loc, uint16_t ledNumber, RGB output);
+#import <stdint>
+#import "Defines.h"
+
+RGB renderColorValue(uint8_t intensity, Coordinate loc, uint16_t ledNumber);//, RGB output);
 
 #endif /* COLORVALUE_H_ */

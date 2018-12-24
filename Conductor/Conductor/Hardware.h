@@ -9,7 +9,6 @@
 #ifndef HARDWARE_H_
 #define HARDWARE_H_
 
-//#import <cstdint>
 
 /* * * * * SELECT DISPLAY TYPE * * * * */
 #define WS_DEV
@@ -20,9 +19,12 @@
 extern const uint8_t Y_OFFSET[];
 extern const uint8_t X_OFFSET[];
 #define CARTESIAN
-#define LED_DISPLAY_SIZE    256
-#define WS_REPEAT           1
-#define FRAME_RATE          25
+
+#define LED_WIDTH  16
+#define LED_HEIGHT 16
+#define TOTAL_LEDS (LED_WIDTH * LED_HEIGHT)
+
+#define LED_DISPLAY_SIZE    TOTAL_LEDS
 #define X_MIN               8
 #define X_MAX               248
 #define Y_MIN               8
@@ -32,12 +34,15 @@ extern const uint8_t X_OFFSET[];
 
 #ifdef VIRROR
 #define CARTESIAN
+
+#define LED_WIDTH  64
+#define LED_HEIGHT 48
+#define TOTAL_LEDS (LED_WIDTH * LED_HEIGHT)
+
 extern const uint8_t X_OFFSET[];
 extern const uint8_t Y_OFFSET[];
-#define LED_DISPLAY_SIZE    144
-#define WS_REPEAT           1
-#define FRAME_RATE          30  // fps
-#define X_MIN               30
+#define LED_DISPLAY_SIZE    TOTAL_LEDS
+#define X_MIN               30 // TODO: Fill these in
 #define X_MAX               224
 #define Y_MIN               38
 #define Y_MAX               109
@@ -60,7 +65,14 @@ extern const uint8_t Y_OFFSET[];
 
 
 #ifdef OPTION1
-// TODO: Put other hardware consts here
+#define SCANNER_WIDTH  80
+#define SCANNER_HEIGHT 14
+#define SCANNER_MEASUREMENT_SIZE 4
+
+#define NUMBER_OF_ROWS_WIRED_IN_SEQUENCE 6
+#define NUMBER_OF_CHANNELS 8
+#define NUMBER_OF_LEDS_PER_CHANNEL  (TOTAL_LEDS / 8)
+#define TOTAL_NUMBER_OF_COLOR_CHARS (NUMBER_OF_LEDS_PER_CHANNEL * NUMBER_OF_CHANNELS * 6)
 #endif
 
 #ifdef OPTION2
