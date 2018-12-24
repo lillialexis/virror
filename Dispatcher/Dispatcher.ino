@@ -95,9 +95,9 @@ OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, config);
 
 #define SCANNER_WIDTH  80
 #define SCANNER_HEIGHT 14
-typedef long long SCANNER_MEASUREMENT_SIZE;
+#define SCANNER_MEASUREMENT_SIZE 4
 
-SCANNER_MEASUREMENT_SIZE scannerBuffer[SCANNER_WIDTH * SCANNER_HEIGHT];
+char scannerBuffer[SCANNER_WIDTH * SCANNER_HEIGHT * SCANNER_MEASUREMENT_SIZE];
 
 
 void setup() {
@@ -108,7 +108,7 @@ void setup() {
 
     // TODO: Set up scanner pins and stuff
 
-    memset(scannerBuffer, '/0', sizeof(SCANNER_MEASUREMENT_SIZE) * SCANNER_WIDTH * SCANNER_HEIGHT);
+    memset(scannerBuffer, 0, sizeof(char) * SCANNER_MEASUREMENT_SIZE * SCANNER_WIDTH * SCANNER_HEIGHT);
 }
 
 void loop() {
@@ -125,7 +125,7 @@ void loop() {
 
             // TODO: Read new scanner values
 
-            Serial.write(scannerBuffer, sizeof(SCANNER_MEASUREMENT_SIZE) * SCANNER_WIDTH * SCANNER_HEIGHT);
+            Serial.write(scannerBuffer, SCANNER_MEASUREMENT_SIZE * SCANNER_WIDTH * SCANNER_HEIGHT);
 
         } else { Serial.print('#'); }
 
