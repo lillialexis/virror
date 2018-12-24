@@ -55,7 +55,14 @@ OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, config);
 int rainbowColors[180];
 // The display size and color to use
 
+const unsigned int scan_width = 80;
+const unsigned int scan_height = 14;
 
+int alphaArray[scan_width * scan_height];
+
+int rc2i(int row, int col) {
+  return (row * scan_width) + col;
+}
 
 void setup() {
   pinMode(1, OUTPUT);
@@ -65,8 +72,19 @@ void setup() {
     int saturation = 100;
     int lightness = 50;
     // pre-compute the 180 rainbow colors
-    rainbowColors[i] = makeColor(hue, saturation, lightness);
+    rainbowColors[i] = hue;//makeColor(hue, saturation, lightness);
   }
+
+  for (int i = 0; i < scan_height; i++) {
+    for (int j = 0; j < scan_width; j++) {
+      if (i > 3 && i < 10 && j > 20 && j < 70) {
+        alphaArray[rc2i(i, j)] = 50;
+      } else {
+        alphaArray[rc2i(i, j)] = 0;
+      }
+    }
+  }
+
   digitalWrite(1, LOW);
   leds.begin();
 }
@@ -74,6 +92,23 @@ void setup() {
 
 void loop() {
   rainbow(10, 2500);
+}
+
+int applyAlpha(int oldColor, int aVal) {
+    return makeColor(oldColor, 100, aVal);
+
+//  if (aVal) {
+//    return 0;
+//  }
+//
+//  return oldColor;
+}
+
+int aValFromArray(int x, int y) {
+  int newY = ((float) y) / 3.43;
+  int newX = ((float) x) * 1.25 * 2.0;
+
+  return alphaArray[rc2i(newY, newX)];
 }
 
 
@@ -97,7 +132,12 @@ void rainbow(int phaseShift, int cycleTime)
       for (y=0; y < height; y++) {
         int index = (color + x + y*phaseShift/2) % 180;
 //        leds.setPixel(x + y*ledsPerStrip, rainbowColors[index]);
-        leds.setPixel(xy(x,y), rainbowColors[index]);
+
+        int origColor = rainbowColors[index];
+        int aVal = aValFromArray(x, y);
+        int newColor = applyAlpha(origColor, aVal);
+
+        leds.setPixel(xy(x,y), newColor);
       }
     }
     leds.show();
