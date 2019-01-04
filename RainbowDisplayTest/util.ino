@@ -1,3 +1,14 @@
+
+
+// TODO: Probably convert to macros (saves programming space?)
+int rc2iScan(int row, int col) {
+	return (row * SCAN_WIDTH) + col;
+}
+
+int rc2iLeds(int row, int col) {
+	return (row * LED_WIDTH) + col;
+}
+
 // Convert HSL (Hue, Saturation, Lightness) to RGB (Red, Green, Blue)
 //
 //   hue:        0 to 359 - position on the color wheel, 0=red, 60=orange,
@@ -16,9 +27,9 @@ int makeColor(unsigned int hue, unsigned int saturation, unsigned int lightness)
 	if (saturation > 100) saturation = 100;
 	if (lightness > 100) lightness = 100;
 
-//#ifdef DEV_RIG
-  lightness = lightness / 4;
-//#endif
+#ifdef DEV_RIG
+  	lightness = 0;//ightness / 4;
+#endif
 
 	// algorithm from: http://www.easyrgb.com/index.php?X=MATH&H=19#text19
 	if (saturation == 0) {
