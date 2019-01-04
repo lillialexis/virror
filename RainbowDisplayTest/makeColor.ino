@@ -16,6 +16,10 @@ int makeColor(unsigned int hue, unsigned int saturation, unsigned int lightness)
 	if (saturation > 100) saturation = 100;
 	if (lightness > 100) lightness = 100;
 
+//#ifdef DEV_RIG
+  lightness = lightness / 4;
+//#endif
+
 	// algorithm from: http://www.easyrgb.com/index.php?X=MATH&H=19#text19
 	if (saturation == 0) {
 		red = green = blue = lightness * 255 / 100;

@@ -39,10 +39,9 @@
 */
 
 #include <OctoWS2811.h>
+#include "Defines.h"
 
-const unsigned int width = 32;
-const unsigned int height = 48;
-const int ledsPerPin = width * height / 8;
+const int ledsPerPin = LED_WIDTH * LED_HEIGHT / 8;
 const int ledsPerStrip = ledsPerPin;
 
 DMAMEM int displayMemory[ledsPerStrip*6];
@@ -80,7 +79,7 @@ void setup() {
       if (i > 3 && i < 10 && j > 20 && j < 70) {
         alphaArray[rc2i(i, j)] = 50;
       } else {
-        alphaArray[rc2i(i, j)] = 0;
+        alphaArray[rc2i(i, j)] = 50;//0;
       }
     }
   }
@@ -128,8 +127,8 @@ void rainbow(int phaseShift, int cycleTime)
   wait = cycleTime * 1000 / ledsPerStrip;
   for (color=0; color < 180; color++) {
     digitalWrite(1, HIGH);
-    for (x=0; x < width; x++) {
-      for (y=0; y < height; y++) {
+    for (x=0; x < LED_WIDTH; x++) {
+      for (y=0; y < LED_HEIGHT; y++) {
         int index = (color + x + y*phaseShift/2) % 180;
 //        leds.setPixel(x + y*ledsPerStrip, rainbowColors[index]);
 
@@ -145,15 +144,16 @@ void rainbow(int phaseShift, int cycleTime)
     delayMicroseconds(wait);
   }
 }
+
 unsigned int xy(unsigned int x, unsigned int y) {
   bool LorR;
-  y = height - y - 1; //invert display
+  y = LED_HEIGHT - y - 1; //invert display
   if (y % 16 < 8) //2 * 8 strands run back and fourth
     {LorR = true;} //line goes LtoR
   else {LorR = false;} //line goes RtoL
   unsigned int channel_index = (y % 8) * ledsPerPin; //array index for start of the LED strand of the LED in question
-  unsigned int strand_index = (y / 8) * width; //
+  unsigned int strand_index = (y / 8) * LED_WIDTH; //
   if (LorR) {return channel_index + strand_index + x;} 
-  else {return channel_index + strand_index + width - x - 1;}
+  else {return channel_index + strand_index + LED_WIDTH - x - 1;}
 }
 
