@@ -135,9 +135,9 @@ void loop() {
     applyForeground(scanArray, ledArray, LED_WIDTH, LED_HEIGHT);
 
     /* Set the pixels and loop.*/
-    int x, y, wait;
+    int x, y;//, wait;
 
-    wait = CYCLE_TIME * 1000 / ledsPerStrip; // TODO: Probably instead of adding a wait to our loop, we just add a 'changeCounter' var to our rainbow, et. al. mode
+    //wait = CYCLE_TIME * 1000 / ledsPerStrip; // TODO: Probably instead of adding a wait to our loop, we just add a 'changeCounter' var to our rainbow, et. al. mode
 
     digitalWrite(1, HIGH);
 

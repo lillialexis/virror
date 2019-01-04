@@ -10,12 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d939b0b9-dd99-46fa-84a5-95abab6de000" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BackgroundModeManager.ino" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundModeManager.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ForegroundModeManager.ino" beforeDir="false" afterPath="$PROJECT_DIR$/ForegroundModeManager.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RainbowDisplayTest.ino" beforeDir="false" afterPath="$PROJECT_DIR$/RainbowDisplayTest.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SensorManager.ino" beforeDir="false" afterPath="$PROJECT_DIR$/SensorManager.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util.ino" beforeDir="false" afterPath="$PROJECT_DIR$/util.ino" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,20 +21,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RainbowDisplayTest.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="640">
-              <caret line="146" column="46" selection-start-line="146" selection-start-column="46" selection-end-line="146" selection-end-column="46" />
+            <state relative-caret-position="426">
+              <caret line="137" column="15" selection-start-line="137" selection-start-column="15" selection-end-line="137" selection-end-column="15" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BackgroundModeManager.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="980">
-              <caret line="49" selection-start-line="49" selection-end-line="49" />
+            <state relative-caret-position="251">
+              <caret line="34" column="63" selection-start-line="34" selection-start-column="63" selection-end-line="34" selection-end-column="63" />
             </state>
           </provider>
         </entry>
@@ -103,10 +99,10 @@
         <option value="$PROJECT_DIR$/makeColor.ino" />
         <option value="$PROJECT_DIR$/Defines.h" />
         <option value="$PROJECT_DIR$/ForegroundModeManager.ino" />
-        <option value="$PROJECT_DIR$/BackgroundModeManager.ino" />
         <option value="$PROJECT_DIR$/SensorManager.ino" />
         <option value="$PROJECT_DIR$/util.ino" />
         <option value="$PROJECT_DIR$/RainbowDisplayTest.ino" />
+        <option value="$PROJECT_DIR$/BackgroundModeManager.ino" />
       </list>
     </option>
   </component>
@@ -164,12 +160,12 @@
       <updated>1546632432079</updated>
       <workItem from="1546632434169" duration="884000" />
       <workItem from="1546633361507" duration="108000" />
-      <workItem from="1546633480793" duration="8869000" />
+      <workItem from="1546633480793" duration="10663000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9861000" />
+    <option name="totallyTimeSpent" value="11655000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1417" extended-state="6" />
@@ -219,13 +215,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BackgroundModeManager.ino">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="980">
-          <caret line="49" selection-start-line="49" selection-end-line="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ForegroundModeManager.ino">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
@@ -252,8 +241,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/RainbowDisplayTest.ino">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="640">
-          <caret line="146" column="46" selection-start-line="146" selection-start-column="46" selection-end-line="146" selection-end-column="46" />
+        <state relative-caret-position="426">
+          <caret line="137" column="15" selection-start-line="137" selection-start-column="15" selection-end-line="137" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BackgroundModeManager.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="34" column="63" selection-start-line="34" selection-start-column="63" selection-end-line="34" selection-end-column="63" />
         </state>
       </provider>
     </entry>

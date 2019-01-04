@@ -2,12 +2,14 @@
 #include "Defines.h"
 
 #define RAINBOW_MODE_PHASE_SHIFT 10
+#define RAINBOW_MODE_CYCLE_TIME  40
 
 int rainbowColors[180];
 int backgroundMode = 0;
 
 enum backgroundModes {
         RainbowMode,
+        RedMode,
         BackgroundModesCount
 };
 
@@ -29,14 +31,23 @@ void newBackgroundMode() {
     }
 }
 
-void applyBackground(int ledArray[], int width, int height) {
+// TODO: Implement mode variants
+void applyBackground(int ledArray[], int width, int height) {//, int modeVariant1, int modeVariant2, int modeVariant3) {
     switch (backgroundMode) {
-        case RainbowMode:
-            rainbow(ledArray, width, height, RAINBOW_MODE_PHASE_SHIFT);
+        case RainbowMode: {
+            rainbow(ledArray, width, height, RAINBOW_MODE_PHASE_SHIFT, RAINBOW_MODE_CYCLE_TIME);
             break;
-        default:
+        }
+
+        case RedMode: {
             red(ledArray, width, height);
             break;
+        }
+
+        default: {
+            red(ledArray, width, height);
+            break;
+        }
     }
 }
 
@@ -57,16 +68,26 @@ void red(int ledArray[], int width, int height) {
 // the entire 360 degrees of the color wheel:
 // Red -> Orange -> Yellow -> Green -> Blue -> Violet -> Red
 //
-void rainbow(int ledArray[], int width, int height, int phaseShift) {
-    // TODO: Why this outer loop?
+void rainbow(int ledArray[], int width, int height, int phaseShift, int cycleTime) {
+    //int waitThreshold = cycleTime / (width * height);
 
-    for (int color = 0; color < 180; color++) {
-        for (int x = 0; x < LED_WIDTH; x++) {
-            for (int y = 0; y < LED_HEIGHT; y++) {
-                int index = (color + x + y*phaseShift/2) % 180;
+    static int color = 0;
+    static int colorChangeCounter = cycleTime;
 
-                ledArray[rc2iLeds(y, x)] = rainbowColors[index];
-            }
+    colorChangeCounter++;
+
+    if (colorChangeCounter < cycleTime) {// waitThreshold) {
+        return;
+    }
+
+    for (int x = 0; x < LED_WIDTH; x++) {
+        for (int y = 0; y < LED_HEIGHT; y++) {
+            int index = (color + x + y*phaseShift/2) % 180;
+
+            ledArray[rc2iLeds(y, x)] = rainbowColors[index];
         }
     }
+
+    color = (color + 1) % 180;
+    colorChangeCounter = 0;
 }
