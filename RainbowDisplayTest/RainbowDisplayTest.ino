@@ -51,7 +51,7 @@ const int config = WS2811_GRB | WS2811_800kHz;
 
 OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, config);
 
-int scaledScan[LED_WIDTH * LED_HEIGHT];
+int scanArray[LED_WIDTH * LED_HEIGHT];
 int ledArray[LED_WIDTH * LED_HEIGHT];
 
 //int rainbowColors[180];
@@ -66,12 +66,9 @@ int ledArray[LED_WIDTH * LED_HEIGHT];
 //  return (row * scan_width) + col;
 //}
 
-
-
-
 void setup() {
-  pinMode(1, OUTPUT);
-  digitalWrite(1, HIGH);
+    pinMode(1, OUTPUT);
+    digitalWrite(1, HIGH);
 //  for (int i=0; i<180; i++) {
 //    int hue = i * 2;
 //    int saturation = 100;
@@ -90,44 +87,71 @@ void setup() {
 //    }
 //  }
 
-  scanSetup();
-  backgroundSetup();
-  foregroundSetup();
+    memset(ledArray, 0, LED_WIDTH * LED_HEIGHT * sizeof(int));
+    memset(scanArray, 0, LED_WIDTH * LED_HEIGHT * sizeof(int));
 
-  digitalWrite(1, LOW);
-  leds.begin();
+    scanSetup();
+    backgroundSetup();
+    foregroundSetup();
+
+    digitalWrite(1, LOW);
+    leds.begin();
 }
 
+#define MODE_CHANGE_COUNTER_THRESHOLD 2000
 
 void loop() {
-    int modeMask = scan(scaledScan, LED_WIDTH, LED_HEIGHT);
+    /* Initialize the background- and foreground-mode change counters. */
+    static int backgroundModeChangeCounter = (MODE_CHANGE_COUNTER_THRESHOLD / 2);
+    static int foregroundModeChangeCounter = 0;
 
-    if (modeMask & BACKGROUND_CHANGE) {
-        newBackgroundMode();
+    /* Get the scan. Did our scan detect a mode change? */
+    int modeMask = scan(scanArray, LED_WIDTH, LED_HEIGHT);
+
+    /* If the scan detected a background-mode change or if our background-mode change counter hit
+     * the threshold, change the background mode. */
+    if (modeMask & BACKGROUND_CHANGE ||
+        backgroundModeChangeCounter == MODE_CHANGE_COUNTER_THRESHOLD) {
+            newBackgroundMode();
+
+            backgroundModeChangeCounter = 0;
     }
 
-    if (modeMask & FOREGROUND_CHANGE) {
-        newForegroundMode();
+    /* If the scan detected a foreground-mode change or if our foreground-mode change counter hit
+     * the threshold, change the foreground mode. */
+    if (modeMask & FOREGROUND_CHANGE ||
+        foregroundModeChangeCounter == MODE_CHANGE_COUNTER_THRESHOLD) {
+            newForegroundMode();
+
+            foregroundModeChangeCounter = 0;
     }
 
+    /* Increase the background- and foreground-mode change counters. */
+    foregroundModeChangeCounter++;
+    backgroundModeChangeCounter++;
+
+    /* Apply the loop's new background, then mix with the loop's new foreground. */
     applyBackground(ledArray, LED_WIDTH, LED_HEIGHT);
-    applyForeground(scaledScan, ledArray, LED_WIDTH, LED_HEIGHT);
+    applyForeground(scanArray, ledArray, LED_WIDTH, LED_HEIGHT);
 
+    /* Set the pixels and loop.*/
     int x, y, wait;
 
-    wait = CYCLE_TIME * 1000 / ledsPerStrip;
+    wait = CYCLE_TIME * 1000 / ledsPerStrip; // TODO: Probably instead of adding a wait to our loop, we just add a 'changeCounter' var to our rainbow, et. al. mode
+
+    digitalWrite(1, HIGH);
 
     for (x = 0; x < LED_WIDTH; x++) {
         for (y = 0; y < LED_HEIGHT; y++) {
-            digitalWrite(1, HIGH);
-            leds.setPixel(xy(x, y), ledArray[rc2iLeds(y, x)]);
+//            digitalWrite(1, HIGH);
+            leds.setPixel(xy(x, y), makeColor(ledArray[rc2iLeds(y, x)], 100, 50));
         }
     }
 
     leds.show();
     digitalWrite(1, LOW);
 
-    delayMicroseconds(wait);
+    //delayMicroseconds(wait);
 }
 
 //int applyAlpha(int oldColor, int aVal) {
@@ -182,6 +206,7 @@ void loop() {
 //  }
 //}
 
+// TODO: Probably move to util.ino
 unsigned int xy(unsigned int x, unsigned int y) {
     bool LorR;
     y = LED_HEIGHT - y - 1; // invert display

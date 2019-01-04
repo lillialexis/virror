@@ -41,7 +41,11 @@ void applyBackground(int ledArray[], int width, int height) {
 }
 
 void red(int ledArray[], int width, int height) {
-
+    for (int x = 0; x < LED_WIDTH; x++) {
+        for (int y = 0; y < LED_HEIGHT; y++) {
+            ledArray[rc2iLeds(y, x)] = 0;
+        }
+    }
 }
 
 // phaseShift is the shift between each row.  phaseShift=0
@@ -54,15 +58,14 @@ void red(int ledArray[], int width, int height) {
 // Red -> Orange -> Yellow -> Green -> Blue -> Violet -> Red
 //
 void rainbow(int ledArray[], int width, int height, int phaseShift) {
-    int color, x, y;
+    // TODO: Why this outer loop?
 
-    for (color=0; color < 180; color++) {
-        digitalWrite(1, HIGH);
-        for (x=0; x < LED_WIDTH; x++) {
-            for (y=0; y < LED_HEIGHT; y++) {
+    for (int color = 0; color < 180; color++) {
+        for (int x = 0; x < LED_WIDTH; x++) {
+            for (int y = 0; y < LED_HEIGHT; y++) {
                 int index = (color + x + y*phaseShift/2) % 180;
 
-                int origColor = rainbowColors[index];
+                ledArray[rc2iLeds(y, x)] = rainbowColors[index];
             }
         }
     }

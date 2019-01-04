@@ -19,18 +19,18 @@ void newForegroundMode() {
     }
 }
 
-void applyForeground(int scaledScanArray[], int *ledArray, int width, int height) {
+void applyForeground(int scanArray[], int ledArray[], int width, int height) {
     switch (foregroundMode) {
         case DarkMode:
-            darken(scaledScanArray, ledArray, width, height);
+            darken(scanArray, ledArray, width, height);
             break;
         default:
-            blue(scaledScanArray, ledArray, width, height);
+            blue(scanArray, ledArray, width, height);
             break;
     }
 }
 
-void blue(int scaledScanArray[], int ledArray[], int width, int height) {
+void blue(int scanArray[], int ledArray[], int width, int height) {
 
 }
 

@@ -1,10 +1,10 @@
 
 #include "Defines.h"
 
-int scanArray[SCAN_WIDTH * SCAN_HEIGHT];
+int rawScanArray[SCAN_WIDTH * SCAN_HEIGHT];
 
 void scanSetup() {
-    memset(scanArray, 0, sizeof(int));
+    memset(rawScanArray, 0, SCAN_WIDTH * SCAN_HEIGHT * sizeof(int));
 }
 
 #ifdef DEV_SCAN
@@ -22,7 +22,15 @@ void readScan() {
 }
 #endif
 
-#define MODE_CHANGE_THRESHOLD 20
+/* Lets put a couple of "detection windows" in the top-left and top-right areas of our scans.
+ * If we detect something (e.g., a hand) in our detection window, trigger a mode change. The
+ * scan data in our detection windows are added up and if the cumulative value passes the
+ * MODE_CHANGE_DETECTION_THRESHOLD, a mode change is triggered. We can tweak these constants
+ * to values that make sense and are the right amount of "sensitive" once we have the real scan
+ * hardware set up. */
+#define MODE_CHANGE_DETECTION_THRESHOLD 40
+#define MODE_CHANGE_DETECTION_WIDTH     15
+#define MODE_CHANGE_DETECTION_HEIGHT    3
 #define POS_COUNT_THRESHOLD   10
 #define NEG_COUNT_THRESHOLD   5
 
@@ -32,13 +40,13 @@ bool checkForegroundModeChange() {
 
     int countTotal = 0;
 
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 2; j++) {
-            countTotal += scanArray[rc2iScan(j, i)];
+    for (int i = 0; i < MODE_CHANGE_DETECTION_WIDTH; i++) {
+        for (int j = 0; j < MODE_CHANGE_DETECTION_HEIGHT; j++) { // TODO: If the scan data comes in from the bottom, flip these conditions
+            countTotal += rawScanArray[rc2iScan(j, i)];
         }
     }
 
-    if (countTotal > MODE_CHANGE_THRESHOLD) {
+    if (countTotal > MODE_CHANGE_DETECTION_THRESHOLD) {
         positiveCounterFgd++;
     } else {
         negativeCounterFgd++;
@@ -65,13 +73,13 @@ bool checkBackgroundModeChange() {
 
     int countTotal = 0;
 
-    for (int i = 70; i < 80; i++) {
-        for (int j = 0; j < 2; j++) {
-            countTotal += scanArray[rc2iScan(j, i)];
+    for (int i = SCAN_WIDTH - MODE_CHANGE_DETECTION_WIDTH; i < SCAN_WIDTH; i++) {
+        for (int j = 0; j < MODE_CHANGE_DETECTION_HEIGHT; j++) { // TODO: If the scan data comes in from the bottom, flip these conditions
+            countTotal += rawScanArray[rc2iScan(j, i)];
         }
     }
 
-    if (countTotal > MODE_CHANGE_THRESHOLD) {
+    if (countTotal > MODE_CHANGE_DETECTION_THRESHOLD) {
         positiveCounterBgd++;
     } else {
         negativeCounterBgd++;

@@ -28,7 +28,7 @@ int makeColor(unsigned int hue, unsigned int saturation, unsigned int lightness)
 	if (lightness > 100) lightness = 100;
 
 #ifdef DEV_RIG
-  	lightness = 0;//ightness / 4;
+  	lightness = lightness / 4;
 #endif
 
 	// algorithm from: http://www.easyrgb.com/index.php?X=MATH&H=19#text19
