@@ -98,12 +98,12 @@ void setup() {
     leds.begin();
 }
 
-#define MODE_CHANGE_COUNTER_THRESHOLD 2000
+#define MODE_CHANGE_COUNTER_THRESHOLD 200000
 
 void loop() {
     /* Initialize the background- and foreground-mode change counters. */
-    static int backgroundModeChangeCounter = (MODE_CHANGE_COUNTER_THRESHOLD / 2);
-    static int foregroundModeChangeCounter = 0;
+    static unsigned int backgroundModeChangeCounter = (MODE_CHANGE_COUNTER_THRESHOLD / 2);
+    static unsigned int foregroundModeChangeCounter = 0;
 
     /* Get the scan. Did our scan detect a mode change? */
     int modeMask = scan(scanArray, LED_WIDTH, LED_HEIGHT);
@@ -135,23 +135,16 @@ void loop() {
     applyForeground(scanArray, ledArray, LED_WIDTH, LED_HEIGHT);
 
     /* Set the pixels and loop.*/
-    int x, y;//, wait;
-
-    //wait = CYCLE_TIME * 1000 / ledsPerStrip; // TODO: Probably instead of adding a wait to our loop, we just add a 'changeCounter' var to our rainbow, et. al. mode
-
     digitalWrite(1, HIGH);
 
-    for (x = 0; x < LED_WIDTH; x++) {
-        for (y = 0; y < LED_HEIGHT; y++) {
-//            digitalWrite(1, HIGH);
+    for (int x = 0; x < LED_WIDTH; x++) {
+        for (int y = 0; y < LED_HEIGHT; y++) {
             leds.setPixel(xy(x, y), makeColor(ledArray[rc2iLeds(y, x)], 100, 50));
         }
     }
 
     leds.show();
     digitalWrite(1, LOW);
-
-    //delayMicroseconds(wait);
 }
 
 //int applyAlpha(int oldColor, int aVal) {
