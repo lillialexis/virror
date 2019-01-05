@@ -5,21 +5,22 @@
 #define RAINBOW_MODE_SHIFT_TIMEOUT 40
 #define CIRCLE_MODE_SHIFT_TIMEOUT  100
 
-int rainbowColors[180];
+int rainbowColors[127];
 int backgroundMode = 0;
 
 enum backgroundModes {
-        //RAINBOW_MODE,
-        CIRCLE_MODE,
+        RAINBOW_MODE,
+        RAINBOW_TEST_MODE,
+        //CIRCLE_MODE,
         //RED_MODE,
-        //RED_GRADIENT_MODE,
+        RED_GRADIENT_MODE,
         BACKGROUND_MODES_COUNT
 };
 
 void backgroundSetup() {
-    for (int i =  0; i< 180; i++) {
+    for (int i =  0; i < 127; i++) {
         int hue = i * 2;
-        // pre-compute the 180 rainbow colors
+        // pre-compute the 127 rainbow colors
         rainbowColors[i] = hue;//makeColor(hue, saturation, lightness);
     }
 }
@@ -33,27 +34,32 @@ void newBackgroundMode() {
 }
 
 // TODO: Implement mode variants
-void applyBackground(HSL ledArray[], int width, int height) {//, int modeVariant1, int modeVariant2, int modeVariant3) {
+void applyBackground(HSV ledArray[], int width, int height) {//, int modeVariant1, int modeVariant2, int modeVariant3) {
     switch (backgroundMode) {
-//        case RAINBOW_MODE: {
-//            rainbow(ledArray, width, height, RAINBOW_MODE_PHASE_SHIFT, RAINBOW_MODE_SHIFT_TIMEOUT);
-//            break;
-//        }
-
-        case CIRCLE_MODE: {
-            movingCircle(ledArray, width, height, CIRCLE_MODE_SHIFT_TIMEOUT);
+        case RAINBOW_MODE: {
+            rainbow(ledArray, width, height, RAINBOW_MODE_PHASE_SHIFT, RAINBOW_MODE_SHIFT_TIMEOUT);
             break;
         }
+
+        case RAINBOW_TEST_MODE: {
+            rainbowTest(ledArray, width, height);
+            break;
+        }
+
+//        case CIRCLE_MODE: {
+//            movingCircle(ledArray, width, height, CIRCLE_MODE_SHIFT_TIMEOUT);
+//            break;
+//        }
 
 //        case RED_MODE: {
 //            red(ledArray, width, height);
 //            break;
 //        }
 //
-//        case RED_GRADIENT_MODE: {
-//            redGradient(ledArray, width, height);
-//            break;
-//        }
+        case RED_GRADIENT_MODE: {
+            redGradient(ledArray, width, height);
+            break;
+        }
 
         default: {
             red(ledArray, width, height);
@@ -62,26 +68,26 @@ void applyBackground(HSL ledArray[], int width, int height) {//, int modeVariant
     }
 }
 
-void red(HSL ledArray[], int width, int height) {
+void red(HSV ledArray[], int width, int height) {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            ledArray[rc2iLeds(y, x)] = {0, DEFAULT_SATURATION, DEFAULT_LIGHTNESS};
+            ledArray[rc2iLeds(y, x)] = {0, DEFAULT_SATURATION, DEFAULT_VALUE};
         }
     }
 }
 
-void redGradient(HSL ledArray[], int width, int height) {
+void redGradient(HSV ledArray[], int width, int height) {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            int saturation = ((float) x / (float) LED_WIDTH) * 100;
-            int lightness = ((float) y / (float) LED_HEIGHT) * 100;
+            int saturation = ((float) y / (float) LED_HEIGHT) * DEFAULT_SATURATION;
+            int value = ((float) x / (float) LED_WIDTH) * DEFAULT_VALUE;
 
-            ledArray[rc2iLeds(y, x)] = {0, saturation, lightness};
+            ledArray[rc2iLeds(y, x)] = {0, saturation, value};
         }
     }
 }
 
-void movingCircle(HSL ledArray[], int width, int height, int updateTimeout) {
+void movingCircle(HSV ledArray[], int width, int height, int updateTimeout) {
     static int moveCounter = 0;
     static int color = 0;
     static Circle circle = {0.0, 0.0, LED_WIDTH, LED_HEIGHT, 0.25, 1.0, LEFT, DOWN, 4.0};
@@ -98,9 +104,9 @@ void movingCircle(HSL ledArray[], int width, int height, int updateTimeout) {
             int value = getCircleVal(x, y, &circle);
 
             if (value) {
-                ledArray[rc2iLeds(x, y)] = {color%360, value, 50 - value / 2};
+                ledArray[rc2iLeds(x, y)] = {color % 255, DEFAULT_SATURATION, DEFAULT_VALUE - value};
             } else {
-                ledArray[rc2iLeds(x, y)] = {0, DEFAULT_SATURATION, DEFAULT_LIGHTNESS};
+                ledArray[rc2iLeds(x, y)] = {0, DEFAULT_SATURATION, DEFAULT_VALUE};
             }
         }
     }
@@ -109,6 +115,13 @@ void movingCircle(HSL ledArray[], int width, int height, int updateTimeout) {
     moveCounter = 0;
 }
 
+void rainbowTest(HSV ledArray[], int width, int height) {
+    for (int x = 0; x < LED_WIDTH; x++) {
+        for (int y = 0; y < LED_HEIGHT; y++) {
+            ledArray[rc2iLeds(y, x)] = {rc2iLeds(y, x) % 255, DEFAULT_SATURATION, DEFAULT_VALUE};
+        }
+    }
+}
 
 // phaseShift is the shift between each row.  phaseShift=0
 // causes all rows to show the same colors moving together.
@@ -119,7 +132,7 @@ void movingCircle(HSL ledArray[], int width, int height, int updateTimeout) {
 // the entire 360 degrees of the color wheel:
 // Red -> Orange -> Yellow -> Green -> Blue -> Violet -> Red
 //
-void rainbow(HSL ledArray[], int width, int height, int phaseShift, int updateTimeout) {
+void rainbow(HSV ledArray[], int width, int height, int phaseShift, int updateTimeout) {
     static int color = 0;
     static int colorChangeCounter = updateTimeout; // Setting this to max to set the initial colors
 
@@ -131,9 +144,9 @@ void rainbow(HSL ledArray[], int width, int height, int phaseShift, int updateTi
 
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            int index = (color + x + y*phaseShift/2) % 180;
+            int index = (color + x + y * phaseShift / 2) % 127;
 
-            ledArray[rc2iLeds(y, x)] = {rainbowColors[index], DEFAULT_SATURATION, DEFAULT_LIGHTNESS};
+            ledArray[rc2iLeds(y, x)] = {rainbowColors[index], DEFAULT_SATURATION, DEFAULT_VALUE};
         }
     }
 

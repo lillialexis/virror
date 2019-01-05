@@ -42,8 +42,20 @@ typedef struct {
     unsigned int l;
 } HSL;
 
-#define DEFAULT_SATURATION 100
-#define DEFAULT_LIGHTNESS  50
+typedef struct {
+    unsigned int r;
+    unsigned int g;
+    unsigned int b;
+} RGB;
+
+typedef struct {
+    unsigned int h;
+    unsigned int s;
+    unsigned int v;
+} HSV;
+
+#define DEFAULT_SATURATION 255
+#define DEFAULT_VALUE      255
 
 #define BYTE_MAX 255
 

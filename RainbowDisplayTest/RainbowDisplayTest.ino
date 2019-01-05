@@ -51,7 +51,7 @@ const int config = WS2811_GRB | WS2811_800kHz;
 
 OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, config);
 
-HSL ledArray[LED_WIDTH * LED_HEIGHT];
+HSV ledArray[LED_WIDTH * LED_HEIGHT];
 int scanArray[LED_WIDTH * LED_HEIGHT];
 
 //int rainbowColors[180];

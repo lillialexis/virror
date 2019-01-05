@@ -12,7 +12,8 @@
     <list default="true" id="d939b0b9-dd99-46fa-84a5-95abab6de000" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/BackgroundModeManager.ino" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundModeManager.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Defines.h" beforeDir="false" afterPath="$PROJECT_DIR$/Defines.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovingCircle.ino" beforeDir="false" afterPath="$PROJECT_DIR$/MovingCircle.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ForegroundModeManager.ino" beforeDir="false" afterPath="$PROJECT_DIR$/ForegroundModeManager.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RainbowDisplayTest.ino" beforeDir="false" afterPath="$PROJECT_DIR$/RainbowDisplayTest.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/util.ino" beforeDir="false" afterPath="$PROJECT_DIR$/util.ino" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,17 +27,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RainbowDisplayTest.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="423">
-              <caret line="102" column="75" selection-start-line="102" selection-start-column="67" selection-end-line="102" selection-end-column="75" />
+            <state relative-caret-position="887">
+              <caret line="139" column="45" selection-start-line="139" selection-start-column="45" selection-end-line="139" selection-end-column="45" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BackgroundModeManager.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="607">
-              <caret line="86" column="70" selection-start-line="86" selection-start-column="70" selection-end-line="86" selection-end-column="70" />
+            <state relative-caret-position="399">
+              <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -44,8 +45,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ForegroundModeManager.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="16" column="48" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
+            <state relative-caret-position="420">
+              <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -71,13 +72,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/util.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="4" column="66" selection-start-line="4" selection-start-column="66" selection-end-line="4" selection-end-column="66" />
+            <state relative-caret-position="572">
+              <caret line="100" column="36" selection-start-line="100" selection-start-column="36" selection-end-line="100" selection-end-column="36" />
               <folding>
                 <element signature="e#661#690#0" expanded="true" />
+                <element signature="e#3404#3468#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -86,8 +88,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Defines.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="968">
-              <caret line="68" column="9" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
+            <state relative-caret-position="508">
+              <caret line="57" column="21" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -113,13 +115,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/makeColor.ino" />
-        <option value="$PROJECT_DIR$/ForegroundModeManager.ino" />
-        <option value="$PROJECT_DIR$/RainbowDisplayTest.ino" />
         <option value="$PROJECT_DIR$/SensorManager.ino" />
-        <option value="$PROJECT_DIR$/util.ino" />
-        <option value="$PROJECT_DIR$/Defines.h" />
         <option value="$PROJECT_DIR$/MovingCircle.ino" />
+        <option value="$PROJECT_DIR$/RainbowDisplayTest.ino" />
+        <option value="$PROJECT_DIR$/ForegroundModeManager.ino" />
+        <option value="$PROJECT_DIR$/Defines.h" />
         <option value="$PROJECT_DIR$/BackgroundModeManager.ino" />
+        <option value="$PROJECT_DIR$/util.ino" />
       </list>
     </option>
   </component>
@@ -177,12 +179,12 @@
       <updated>1546632432079</updated>
       <workItem from="1546632434169" duration="884000" />
       <workItem from="1546633361507" duration="108000" />
-      <workItem from="1546633480793" duration="20251000" />
+      <workItem from="1546633480793" duration="22142000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21243000" />
+    <option name="totallyTimeSpent" value="23134000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1417" extended-state="6" />
@@ -225,13 +227,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RainbowDisplayTest.ino">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="102" column="75" selection-start-line="102" selection-start-column="67" selection-end-line="102" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SensorManager.ino">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="740">
@@ -242,30 +237,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ForegroundModeManager.ino">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="48" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util.ino">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="66" selection-start-line="4" selection-start-column="66" selection-end-line="4" selection-end-column="66" />
-          <folding>
-            <element signature="e#661#690#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Defines.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="968">
-          <caret line="68" column="9" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MovingCircle.ino">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="950">
@@ -273,10 +244,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ForegroundModeManager.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RainbowDisplayTest.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="887">
+          <caret line="139" column="45" selection-start-line="139" selection-start-column="45" selection-end-line="139" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Defines.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="508">
+          <caret line="57" column="21" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/BackgroundModeManager.ino">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="86" column="70" selection-start-line="86" selection-start-column="70" selection-end-line="86" selection-end-column="70" />
+        <state relative-caret-position="399">
+          <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="572">
+          <caret line="100" column="36" selection-start-line="100" selection-start-column="36" selection-end-line="100" selection-end-column="36" />
+          <folding>
+            <element signature="e#661#690#0" expanded="true" />
+            <element signature="e#3404#3468#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

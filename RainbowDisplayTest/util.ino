@@ -11,8 +11,8 @@ int rc2iLeds(int row, int col) {
 	return (row * LED_WIDTH) + col;
 }
 
-int makeColor(HSL hsl) {
-    return makeColor(hsl.h, hsl.s, hsl.l);
+int makeColor(HSV hsv) {
+    return hsvToRgbInt(hsv);// makeColor(hsl.h, hsl.s, hsl.l);
 }
 
 // Convert HSL (Hue, Saturation, Lightness) to RGB (Red, Green, Blue)
@@ -66,6 +66,124 @@ unsigned int h2rgb(unsigned int v1, unsigned int v2, unsigned int hue)
 	if (hue < 180) return v2 * 60;
 	if (hue < 240) return v1 * 60 + (v2 - v1) * (240 - hue);
 	return v1 * 60;
+}
+
+int hsvToRgbInt(HSV hsv) {
+    RGB rgb = hsvToRgb(hsv);
+
+#ifdef DEV_RIG
+    rgb.r = rgb.r / 4;
+    rgb.g = rgb.g / 4;
+    rgb.b = rgb.b / 4;
+#endif
+
+//    rgb.r = ColorCorrectLookup[rgb.r];
+//    rgb.g = ColorCorrectLookup[rgb.g];
+//    rgb.b = ColorCorrectLookup[rgb.b];
+
+    return (rgb.r << 16) | (rgb.g << 8) | rgb.b;
+}
+
+RGB hsvToRgb(HSV hsv) {
+    RGB rgb;
+    unsigned char region, p, q, t;
+    unsigned int h, s, v, remainder;
+
+    if (hsv.s == 0)
+    {
+        rgb.r = hsv.v;
+        rgb.g = hsv.v;
+        rgb.b = hsv.v;
+
+        return rgb;
+    }
+
+    // TODO: Where to color correct?
+
+    // converting to 16 bit to prevent overflow
+    h = /*ColorCorrectLookup[*/hsv.h/*]*/;
+    s = /*ColorCorrectLookup[*/hsv.s/*]*/;
+    v = /*ColorCorrectLookup[*/hsv.v/*]*/;
+
+    region = h / 43;
+    remainder = (h - (region * 43)) * 6;
+
+    p = (v * (255 - s)) >> 8;
+    q = (v * (255 - ((s * remainder) >> 8))) >> 8;
+    t = (v * (255 - ((s * (255 - remainder)) >> 8))) >> 8;
+
+    switch (region)
+    {
+        case 0:
+            rgb.r = v;
+            rgb.g = t;
+            rgb.b = p;
+            break;
+
+        case 1:
+            rgb.r = q;
+            rgb.g = v;
+            rgb.b = p;
+            break;
+
+        case 2:
+            rgb.r = p;
+            rgb.g = v;
+            rgb.b = t;
+            break;
+
+        case 3:
+            rgb.r = p;
+            rgb.g = q;
+            rgb.b = v;
+            break;
+
+        case 4:
+            rgb.r = t;
+            rgb.g = p;
+            rgb.b = v;
+            break;
+
+        default:
+            rgb.r = v;
+            rgb.g = p;
+            rgb.b = q;
+            break;
+    }
+
+    return rgb;
+}
+
+HSV rgbToHsv(RGB rgb) {
+    HSV hsv;
+    unsigned char rgbMin, rgbMax;
+
+    rgbMin = rgb.r < rgb.g ? (rgb.r < rgb.b ? rgb.r : rgb.b) : (rgb.g < rgb.b ? rgb.g : rgb.b);
+    rgbMax = rgb.r > rgb.g ? (rgb.r > rgb.b ? rgb.r : rgb.b) : (rgb.g > rgb.b ? rgb.g : rgb.b);
+
+    hsv.v = rgbMax;
+    if (hsv.v == 0)
+    {
+        hsv.h = 0;
+        hsv.s = 0;
+        return hsv;
+    }
+
+    hsv.s = 255 * (long)(rgbMax - rgbMin) / hsv.v;
+    if (hsv.s == 0)
+    {
+        hsv.h = 0;
+        return hsv;
+    }
+
+    if (rgbMax == rgb.r)
+        hsv.h = 0 + 43 * (rgb.g - rgb.b) / (rgbMax - rgbMin);
+    else if (rgbMax == rgb.g)
+        hsv.h = 85 + 43 * (rgb.b - rgb.r) / (rgbMax - rgbMin);
+    else
+        hsv.h = 171 + 43 * (rgb.r - rgb.g) / (rgbMax - rgbMin);
+
+    return hsv;
 }
 
 // alternate code:
