@@ -12,10 +12,10 @@
 #define DEV_SCAN
 //#define REAL_SCAN
 
-//#ifdef DEV_RIG
+#ifdef DEV_RIG
 #define LED_WIDTH  16
 #define LED_HEIGHT 16
-//#endif
+#endif
 
 #ifdef REAL_RIG
 #define LED_WIDTH  64
@@ -30,13 +30,11 @@
 #define SCAN_WIDTH  80
 #define SCAN_HEIGHT 14
 
-#define MODE_CHANGE_COUNTER_TIMEOUT 100000
+//#define MODE_CHANGE_COUNTER_TIMEOUT 100000
+#define MODE_CHANGE_COUNTER_TIMEOUT 20000
 
 #define FOREGROUND_CHANGE 1
 #define BACKGROUND_CHANGE 2
-
-//#define CYCLE_TIME 2500
-
 
 typedef struct {
     unsigned int h;
@@ -49,8 +47,29 @@ typedef struct {
 
 #define BYTE_MAX 255
 
+typedef enum {
+    LEFT,
+    RIGHT
+} xDirection;
 
-//extern const float HORZ_SCALE_FACTOR ((float) LED_WIDTH / )
+typedef enum {
+    UP,
+    DOWN
+} yDirection;
+
+typedef struct {
+    float x;// = 0;
+    float y;// = 0;
+    float width;
+    float height;
+    float rise;// = LED_HEIGHT;
+    float run;// = LED_WIDTH;
+    xDirection xDir;// = LEFT;
+    yDirection yDir;// = DOWN;
+    float radius;// = LED_WIDTH;
+} Circle;
+
+
 
 
 #endif //RAINBOWDISPLAYTEST_DEFINES_H
