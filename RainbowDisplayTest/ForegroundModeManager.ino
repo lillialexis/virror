@@ -61,11 +61,13 @@ void blue(int scanArray[], HSV ledArray[], int width, int height) {
 
 void darken(int scanArray[], HSV ledArray[], int width, int height) {
     for (int i = 0; i < width * height; i++) {
-        HSV hsv = ledArray[i];
+        if (scanArray[i]) {
+            HSV hsv = ledArray[i];
 
-        hsv.v = 255 - (((float) scanArray[i] / 100.0) * 255.0);
+            hsv.v = 255 - (((float) scanArray[i] / 100.0) * 255.0);
 
-        ledArray[i] = hsv;
+            ledArray[i] = hsv;
+        }
     }
 }
 

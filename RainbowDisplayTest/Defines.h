@@ -12,6 +12,8 @@
 #define DEV_SCAN
 //#define REAL_SCAN
 
+#define USING_BKG_TEST_MODES
+
 #ifdef DEV_RIG
 #define LED_WIDTH  16
 #define LED_HEIGHT 16
@@ -55,7 +57,7 @@ typedef struct {
 } HSV;
 
 #define DEFAULT_SATURATION 255
-#define DEFAULT_VALUE      255
+#define DEFAULT_BRIGHTNESS 255
 
 #define BYTE_MAX 255
 
