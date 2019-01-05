@@ -9,7 +9,7 @@ int rainbowColors[127];
 int backgroundMode = 0;
 
 enum backgroundModes {
-        //RAINBOW_MODE,
+        RAINBOW_MODE,
         //RAINBOW_TEST_MODE,
         //CIRCLE_MODE,
         RED_MODE,
@@ -36,11 +36,11 @@ void newBackgroundMode() {
 // TODO: Implement mode variants
 void applyBackground(HSV ledArray[], int width, int height) {//, int modeVariant1, int modeVariant2, int modeVariant3) {
     switch (backgroundMode) {
-//        case RAINBOW_MODE: {
-//            rainbow(ledArray, width, height, RAINBOW_MODE_PHASE_SHIFT, RAINBOW_MODE_SHIFT_TIMEOUT);
-//            break;
-//        }
-//
+        case RAINBOW_MODE: {
+            rainbow(ledArray, width, height, RAINBOW_MODE_PHASE_SHIFT, RAINBOW_MODE_SHIFT_TIMEOUT);
+            break;
+        }
+
 //        case RAINBOW_TEST_MODE: {
 //            rainbowTest(ledArray, width, height);
 //            break;
@@ -55,7 +55,7 @@ void applyBackground(HSV ledArray[], int width, int height) {//, int modeVariant
             red(ledArray, width, height);
             break;
         }
-//
+
 //        case RED_GRADIENT_MODE: {
 //            redGradient(ledArray, width, height);
 //            break;

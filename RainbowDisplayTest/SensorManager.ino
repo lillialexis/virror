@@ -10,8 +10,8 @@
 #define MODE_CHANGE_DETECTION_THRESHOLD 40
 #define MODE_CHANGE_DETECTION_WIDTH     4//15
 #define MODE_CHANGE_DETECTION_HEIGHT    4//3
-#define POS_COUNTER_TIMEOUT   10
-#define NEG_COUNTER_TIMEOUT   5
+#define POS_COUNTER_TIMEOUT   200
+#define NEG_COUNTER_TIMEOUT   100
 
 int rawScanArray[SCAN_WIDTH * SCAN_HEIGHT];
 
@@ -52,13 +52,13 @@ void readScan() {
 
     addData();
 
-    if (triggerState == LEFT_TRIGGERED || triggerState == BOTH_TRIGGERED) {
-        addLeftTrigger();
-    }
-
-    if (triggerState == RIGHT_TRIGGERED || triggerState == BOTH_TRIGGERED) {
-        addRightTrigger();
-    }
+//    if (triggerState == LEFT_TRIGGERED || triggerState == BOTH_TRIGGERED) {
+//        addLeftTrigger();
+//    }
+//
+//    if (triggerState == RIGHT_TRIGGERED || triggerState == BOTH_TRIGGERED) {
+//        addRightTrigger();
+//    }
 
     triggerCounter++;
 }
