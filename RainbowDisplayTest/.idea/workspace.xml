@@ -10,10 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d939b0b9-dd99-46fa-84a5-95abab6de000" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/BackgroundModeManager.ino" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundModeManager.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Defines.h" beforeDir="false" afterPath="$PROJECT_DIR$/Defines.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ForegroundModeManager.ino" beforeDir="false" afterPath="$PROJECT_DIR$/ForegroundModeManager.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RainbowDisplayTest.ino" beforeDir="false" afterPath="$PROJECT_DIR$/RainbowDisplayTest.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util.ino" beforeDir="false" afterPath="$PROJECT_DIR$/util.ino" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,17 +46,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BackgroundTestModeManager.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="43" column="44" lean-forward="true" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
+            <state relative-caret-position="1620">
+              <caret line="81" column="5" lean-forward="true" selection-start-line="81" selection-start-column="5" selection-end-line="81" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ForegroundModeManager.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="987">
-              <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
+            <state relative-caret-position="547">
+              <caret line="45" column="5" lean-forward="true" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -84,14 +82,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/util.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2112">
-              <caret line="155" lean-forward="true" selection-start-line="155" selection-end-line="155" />
+            <state relative-caret-position="200">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/old_color_util.ino">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="40">
+              <caret line="2" column="27" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
               <folding>
-                <element signature="e#661#690#0" expanded="true" />
-                <element signature="e#3404#3468#0" expanded="true" />
+                <element signature="e#2183#2209#0" expanded="true" />
+                <element signature="e#3424#3488#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -102,6 +109,18 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="141">
               <caret line="14" selection-start-line="14" selection-end-line="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/color_util.ino">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2331">
+              <caret line="122" lean-forward="true" selection-start-line="122" selection-end-line="122" />
+              <folding>
+                <element signature="e#3424#3488#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,14 +146,16 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/makeColor.ino" />
-        <option value="$PROJECT_DIR$/util.ino" />
         <option value="$PROJECT_DIR$/MovingCircle.ino" />
         <option value="$PROJECT_DIR$/SensorManager.ino" />
         <option value="$PROJECT_DIR$/BackgroundModeManager.ino" />
         <option value="$PROJECT_DIR$/Defines.h" />
         <option value="$PROJECT_DIR$/RainbowDisplayTest.ino" />
-        <option value="$PROJECT_DIR$/BackgroundTestModeManager.ino" />
         <option value="$PROJECT_DIR$/ForegroundModeManager.ino" />
+        <option value="$PROJECT_DIR$/BackgroundTestModeManager.ino" />
+        <option value="$PROJECT_DIR$/color_util.ino" />
+        <option value="$PROJECT_DIR$/old_color_util.ino" />
+        <option value="$PROJECT_DIR$/util.ino" />
       </list>
     </option>
   </component>
@@ -192,12 +213,12 @@
       <updated>1546632432079</updated>
       <workItem from="1546632434169" duration="884000" />
       <workItem from="1546633361507" duration="108000" />
-      <workItem from="1546633480793" duration="29029000" />
+      <workItem from="1546633480793" duration="29591000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30021000" />
+    <option name="totallyTimeSpent" value="30583000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1417" extended-state="6" />
@@ -247,17 +268,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util.ino">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2112">
-          <caret line="155" lean-forward="true" selection-start-line="155" selection-end-line="155" />
-          <folding>
-            <element signature="e#661#690#0" expanded="true" />
-            <element signature="e#3404#3468#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SensorManager.ino">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="394">
@@ -265,13 +275,6 @@
           <folding>
             <element signature="e#413#556#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Defines.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
@@ -293,17 +296,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BackgroundTestModeManager.ino">
+    <entry file="file://$PROJECT_DIR$/ForegroundModeManager.ino">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="43" column="44" lean-forward="true" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
+        <state relative-caret-position="547">
+          <caret line="45" column="5" lean-forward="true" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ForegroundModeManager.ino">
+    <entry file="file://$PROJECT_DIR$/BackgroundTestModeManager.ino">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="987">
-          <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
+        <state relative-caret-position="1620">
+          <caret line="81" column="5" lean-forward="true" selection-start-line="81" selection-start-column="5" selection-end-line="81" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Defines.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/color_util.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2331">
+          <caret line="122" lean-forward="true" selection-start-line="122" selection-end-line="122" />
+          <folding>
+            <element signature="e#3424#3488#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/old_color_util.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" column="27" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
+          <folding>
+            <element signature="e#2183#2209#0" expanded="true" />
+            <element signature="e#3424#3488#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
