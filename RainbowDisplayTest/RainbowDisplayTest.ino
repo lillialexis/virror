@@ -87,6 +87,8 @@ void setup() {
 //    }
 //  }
 
+    Serial.begin(9600);
+
     memset(ledArray, 0, LED_WIDTH * LED_HEIGHT * sizeof(HSL));
     memset(scanArray, 0, LED_WIDTH * LED_HEIGHT * sizeof(int));
 
