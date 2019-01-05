@@ -55,7 +55,7 @@ uint8_t fire(Coordinate loc, int colorTime) {
 }
 
 //Coordinate origin = {0, 0};
-RGB renderColorValue(uint8_t intensity, Coordinate loc, uint16_t ledNumber, RGB output)
+RGB renderColorValue(uint8_t intensity, Coordinate loc, uint16_t ledNumber)//, RGB output)
 {
 	Clock     colorClock      = getColorClock();
 	ColorMode colorMode       = getColorMode();
@@ -99,8 +99,8 @@ RGB renderColorValue(uint8_t intensity, Coordinate loc, uint16_t ledNumber, RGB 
 	else if (colorMode == COLOR_WAVES				) { }
 	else if (colorMode == COLOR_CUSTOM_SOLID		) { tempHSV.h = customColor.h			; }
 	else											  { tempHSV.h = COLOR_HSV_RED			; }
-	
-	output = hsvToRgb(tempHSV);//, output);
+
+	RGB output = hsvToRgb(tempHSV);//, output);
 	output.g = ((unsigned int)output.g * globalIntensity) / 255;
 	output.r = ((unsigned int)output.r * globalIntensity) / 255;
 	output.b = ((unsigned int)output.b * globalIntensity) / 255;

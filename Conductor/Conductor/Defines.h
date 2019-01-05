@@ -36,18 +36,6 @@
 
 #define FRAME_RATE_EMA_WEIGHT_TIME_FACTOR 300 /* Use the last 300 frames to calculate the average */
 
-#define LED_WIDTH      64
-#define LED_HEIGHT     48
-#define TOTAL_LEDS     (LED_WIDTH * LED_HEIGHT)
-
-#define SCANNER_WIDTH  80
-#define SCANNER_HEIGHT 14
-#define SCANNER_MEASUREMENT_SIZE 4
-
-#define NUMBER_OF_ROWS_WIRED_IN_SEQUENCE 6
-#define NUMBER_OF_CHANNELS 8
-#define NUMBER_OF_LEDS_PER_CHANNEL  (TOTAL_LEDS / 8)
-#define TOTAL_NUMBER_OF_COLOR_CHARS (NUMBER_OF_LEDS_PER_CHANNEL * NUMBER_OF_CHANNELS * 6)
 
 typedef __attribute__ ((__packed__)) struct {
 	uint8_t g;
