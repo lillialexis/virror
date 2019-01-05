@@ -13,8 +13,8 @@
       <change beforePath="$PROJECT_DIR$/BackgroundModeManager.ino" beforeDir="false" afterPath="$PROJECT_DIR$/BackgroundModeManager.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Defines.h" beforeDir="false" afterPath="$PROJECT_DIR$/Defines.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ForegroundModeManager.ino" beforeDir="false" afterPath="$PROJECT_DIR$/ForegroundModeManager.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RainbowDisplayTest.ino" beforeDir="false" afterPath="$PROJECT_DIR$/RainbowDisplayTest.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util.ino" beforeDir="false" afterPath="$PROJECT_DIR$/util.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovingCircle.ino" beforeDir="false" afterPath="$PROJECT_DIR$/MovingCircle.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SensorManager.ino" beforeDir="false" afterPath="$PROJECT_DIR$/SensorManager.ino" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BackgroundModeManager.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+            <state relative-caret-position="672">
+              <caret line="59" column="51" lean-forward="true" selection-start-line="59" selection-start-column="51" selection-end-line="59" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -45,17 +45,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ForegroundModeManager.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
+            <state relative-caret-position="180">
+              <caret line="9" column="14" lean-forward="true" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SensorManager.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="740">
-              <caret line="37" column="57" selection-start-line="37" selection-start-column="57" selection-end-line="37" selection-end-column="57" />
+            <state relative-caret-position="747">
+              <caret line="49" selection-start-line="49" selection-end-line="49" />
               <folding>
                 <element signature="e#413#556#0" expanded="true" />
               </folding>
@@ -66,17 +66,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MovingCircle.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="950">
-              <caret line="58" column="21" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
+            <state relative-caret-position="1007">
+              <caret line="58" column="94" selection-start-line="58" selection-start-column="94" selection-end-line="58" selection-end-column="94" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util.ino">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
-              <caret line="100" column="36" selection-start-line="100" selection-start-column="36" selection-end-line="100" selection-end-column="36" />
+            <state relative-caret-position="113">
+              <caret line="141" column="22" lean-forward="true" selection-start-line="141" selection-start-column="22" selection-end-line="141" selection-end-column="22" />
               <folding>
                 <element signature="e#661#690#0" expanded="true" />
                 <element signature="e#3404#3468#0" expanded="true" />
@@ -88,8 +88,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Defines.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="508">
-              <caret line="57" column="21" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="21" />
+            <state relative-caret-position="409">
+              <caret line="30" column="24" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -115,13 +115,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/makeColor.ino" />
-        <option value="$PROJECT_DIR$/SensorManager.ino" />
-        <option value="$PROJECT_DIR$/MovingCircle.ino" />
         <option value="$PROJECT_DIR$/RainbowDisplayTest.ino" />
-        <option value="$PROJECT_DIR$/ForegroundModeManager.ino" />
+        <option value="$PROJECT_DIR$/util.ino" />
         <option value="$PROJECT_DIR$/Defines.h" />
         <option value="$PROJECT_DIR$/BackgroundModeManager.ino" />
-        <option value="$PROJECT_DIR$/util.ino" />
+        <option value="$PROJECT_DIR$/ForegroundModeManager.ino" />
+        <option value="$PROJECT_DIR$/MovingCircle.ino" />
+        <option value="$PROJECT_DIR$/SensorManager.ino" />
       </list>
     </option>
   </component>
@@ -179,12 +179,12 @@
       <updated>1546632432079</updated>
       <workItem from="1546632434169" duration="884000" />
       <workItem from="1546633361507" duration="108000" />
-      <workItem from="1546633480793" duration="22142000" />
+      <workItem from="1546633480793" duration="24862000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23134000" />
+    <option name="totallyTimeSpent" value="25854000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1417" extended-state="6" />
@@ -227,30 +227,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SensorManager.ino">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="740">
-          <caret line="37" column="57" selection-start-line="37" selection-start-column="57" selection-end-line="37" selection-end-column="57" />
-          <folding>
-            <element signature="e#413#556#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MovingCircle.ino">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="950">
-          <caret line="58" column="21" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ForegroundModeManager.ino">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/RainbowDisplayTest.ino">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="887">
@@ -258,27 +234,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/util.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="141" column="22" lean-forward="true" selection-start-line="141" selection-start-column="22" selection-end-line="141" selection-end-column="22" />
+          <folding>
+            <element signature="e#661#690#0" expanded="true" />
+            <element signature="e#3404#3468#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Defines.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="57" column="21" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="21" />
+        <state relative-caret-position="409">
+          <caret line="30" column="24" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BackgroundModeManager.ino">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+        <state relative-caret-position="672">
+          <caret line="59" column="51" lean-forward="true" selection-start-line="59" selection-start-column="51" selection-end-line="59" selection-end-column="51" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util.ino">
+    <entry file="file://$PROJECT_DIR$/ForegroundModeManager.ino">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="100" column="36" selection-start-line="100" selection-start-column="36" selection-end-line="100" selection-end-column="36" />
+        <state relative-caret-position="180">
+          <caret line="9" column="14" lean-forward="true" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MovingCircle.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1007">
+          <caret line="58" column="94" selection-start-line="58" selection-start-column="94" selection-end-line="58" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SensorManager.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="747">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
           <folding>
-            <element signature="e#661#690#0" expanded="true" />
-            <element signature="e#3404#3468#0" expanded="true" />
+            <element signature="e#413#556#0" expanded="true" />
           </folding>
         </state>
       </provider>

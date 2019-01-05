@@ -35,6 +35,12 @@ void blue(int scanArray[], HSV ledArray[], int width, int height) {
 }
 
 void darken(int scaledScanArray[], HSV ledArray[], int width, int height) {
+    for (int i = 0; i < width * height; i++) {
+        HSV hsv = ledArray[i];
 
+        hsv.v = 255 - (((float) scaledScanArray[i] / 100.0) * 255.0);
+
+        ledArray[i] = hsv;
+    }
 }
 
