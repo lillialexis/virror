@@ -3,6 +3,8 @@
 
 #define CIRCLE_MODE_SHIFT_TIMEOUT 100
 
+ModeVariants backgroundTestModeVariants = {0, 0, 0, 0, 0};
+
 int backgroundTestMode = 0;
 enum backgroundTestModes {
 //    RAINBOW_BKG_TEST_MODE,
@@ -14,6 +16,14 @@ enum backgroundTestModes {
     BACKGROUND_TEST_MODES_COUNT
 };
 
+void backgroundTestSetup() {
+
+}
+
+void setBackgroundTestModeVariants(ModeVariants modeVariants) {
+    backgroundTestModeVariants = modeVariants;
+}
+
 void newTestBackgroundMode() {
     backgroundTestMode++;
 
@@ -22,8 +32,7 @@ void newTestBackgroundMode() {
     }
 }
 
-// TODO: Implement mode variants
-void applyTestBackground(HSV ledArray[], int width, int height) {
+void applyTestBackground(HSV ledArray[], unsigned int width, unsigned int height) {
     switch (backgroundTestMode) {
 
 //        case RAINBOW_BKG_TEST_MODE: {
@@ -86,7 +95,6 @@ void redBkgSaturationGradientTestMode(HSV ledArray[], int width, int height) {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
             int saturation = ((float) x / (float) LED_WIDTH) * DEFAULT_SATURATION;
-            //int value = ((float) x / (float) LED_WIDTH) * DEFAULT_BRIGHTNESS;
 
             ledArray[rc2iLeds(y, x)] = {0, saturation, DEFAULT_BRIGHTNESS};
         }
@@ -96,7 +104,6 @@ void redBkgSaturationGradientTestMode(HSV ledArray[], int width, int height) {
 void redBkgBrightnessGradientTestMode(HSV ledArray[], int width, int height) {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            //int saturation = ((float) y / (float) LED_HEIGHT) * DEFAULT_SATURATION;
             int value = ((float) x / (float) LED_WIDTH) * DEFAULT_BRIGHTNESS;
 
             ledArray[rc2iLeds(y, x)] = {0, DEFAULT_SATURATION, value};

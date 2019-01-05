@@ -1,9 +1,7 @@
 
 #include "Defines.h"
 
-void foregroundSetup() {
-
-}
+ModeVariants foregroundModeVariants = {0, 0, 0, 0, 0};
 
 int foregroundMode = 0;
 enum foregroundModes {
@@ -11,6 +9,14 @@ enum foregroundModes {
     BLUE_MODE,
     FOREGROUND_MODES_COUNT
 };
+
+void foregroundSetup() {
+
+}
+
+void setForegroundModeVariants(ModeVariants modeVariants) {
+    foregroundModeVariants = modeVariants;
+}
 
 void newForegroundMode() {
     foregroundMode++;
@@ -20,7 +26,11 @@ void newForegroundMode() {
     }
 }
 
-void applyForeground(int scanArray[], HSV ledArray[], int width, int height) {
+void applyForeground(int scanArray[], HSV ledArray[], unsigned int width, unsigned int height, float foregroundAlpha) {
+    if (foregroundAlpha != 1.0) {
+        applyForegroundAlpha(scanArray, width, height, foregroundAlpha);
+    }
+
     switch (foregroundMode) {
         case DARK_MODE:
             darken(scanArray, ledArray, width, height);
@@ -31,6 +41,13 @@ void applyForeground(int scanArray[], HSV ledArray[], int width, int height) {
         default:
             blue(scanArray, ledArray, width, height);
             break;
+    }
+}
+
+void applyForegroundAlpha(int scanArray[], unsigned int width, unsigned int height, unsigned int foregroundAlpha) {
+    for (int i = 0; i < width * height; i++) {
+//        scanArray[i] = round(((float)scanArray[i] * foregroundAlpha);
+        scanArray[i] = (float)scanArray[i] * foregroundAlpha;
     }
 }
 

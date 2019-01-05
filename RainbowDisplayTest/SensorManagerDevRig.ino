@@ -105,5 +105,10 @@ void addRightTrigger() {
         }
     }
 }
+
+ModeVariants getModeVariants() {
+    // TODO: Implement with rotating test data
+    return {1, 2, 3, 4, 255};
+}
 #endif
 

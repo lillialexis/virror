@@ -1,17 +1,6 @@
 
 #include "Defines.h"
 
-/* Lets put a couple of "detection windows" in the top-left and top-right areas of our scans.
- * If we detect something (e.g., a hand) in our detection window, trigger a mode change. The
- * scan data in our detection windows are added up and if the cumulative value passes the
- * MODE_CHANGE_DETECTION_THRESHOLD, a mode change is triggered. We can tweak these constants
- * to values that make sense and are the right amount of "sensitive" once we have the real scan
- * hardware set up. */
-#define MODE_CHANGE_DETECTION_THRESHOLD 40
-#define MODE_CHANGE_DETECTION_WIDTH     4//15
-#define MODE_CHANGE_DETECTION_HEIGHT    4//3
-#define POS_COUNTER_TIMEOUT   200
-#define NEG_COUNTER_TIMEOUT   100
 
 int rawScanArray[SCAN_WIDTH * SCAN_HEIGHT];
 
@@ -24,8 +13,9 @@ void readScan() {
     // TODO: Read real scan data into scanArray
 }
 
-void getModeVariants(int &modeVariant1, int &modeVariant2, int &modeVariant3) {
-
+ModeVariants getModeVariants() {
+    // TODO: Implement
+    return {1, 2, 3, 4, 255};
 }
 #endif
 
@@ -104,16 +94,16 @@ void scaleScan(int scaledScanArray[], int width, int height) {
 }
 
 int scan(int scaledScanArray[], int width, int height) {
-    int modeChangeFlag = 0;
+    int modeChangeFlag = NO_MODE_CHANGE;
 
     readScan();
 
     if (checkForegroundModeChange()) {
-        modeChangeFlag |= FOREGROUND_CHANGE;
+        modeChangeFlag |= FOREGROUND_MODE_CHANGE_FLAG;
     }
 
     if (checkBackgroundModeChange()) {
-        modeChangeFlag |= BACKGROUND_CHANGE;
+        modeChangeFlag |= BACKGROUND_MODE_CHANGE_FLAG;
     }
 
     scaleScan(scaledScanArray, width, height);

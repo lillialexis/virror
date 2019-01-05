@@ -4,6 +4,8 @@
 #define RAINBOW_MODE_PHASE_SHIFT   10
 #define RAINBOW_MODE_SHIFT_TIMEOUT 40
 
+ModeVariants backgroundModeVariants = {0, 0, 0, 0, 0}; // TODO: Am I stepping on memory with the way this is implemented?
+
 int rainbowColors[127];
 
 int backgroundMode = 0;
@@ -14,11 +16,26 @@ enum backgroundModes {
 };
 
 void backgroundSetup() {
+
+#ifdef USING_BKG_TEST_MODES
+    backgroundTestSetup();
+#else
+
     for (int i =  0; i < 127; i++) {
-        int hue = i * 2;
-        // pre-compute the 127 rainbow colors
-        rainbowColors[i] = hue;
+        /* Pre-compute the 127 rainbow colors */
+        rainbowColors[i] = i * 2;
     }
+#endif
+}
+
+void setBackgroundModeVariants(ModeVariants modeVariants) {
+
+#ifdef USING_BKG_TEST_MODES
+    setBackgroundTestModeVariants(modeVariants);
+#else
+
+    backgroundModeVariants = modeVariants;
+#endif
 }
 
 void newBackgroundMode() {
@@ -35,8 +52,7 @@ void newBackgroundMode() {
 #endif
 }
 
-// TODO: Implement mode variants
-void applyBackground(HSV ledArray[], int width, int height) {//, int modeVariant1, int modeVariant2, int modeVariant3) {
+void applyBackground(HSV ledArray[], unsigned int width, unsigned int height, float backgroundAlpha) {
 
 #ifdef USING_BKG_TEST_MODES
     applyTestBackground(ledArray, width, height);
@@ -59,6 +75,19 @@ void applyBackground(HSV ledArray[], int width, int height) {//, int modeVariant
         }
     }
 #endif
+
+    if (backgroundAlpha != 1.0) {
+        applyBackgroundAlpha(ledArray, width, height, backgroundAlpha);
+    }
+}
+
+void applyBackgroundAlpha(HSV ledArray[], unsigned int width, unsigned int height, unsigned int backgroundAlpha) {
+    for (int i = 0; i < width * height; i++) {
+        //((HSV)ledArray[i]).v = round(((float)((HSV)ledArray[i]).v) * backgroundAlpha);
+        //((HSV)ledArray[i]).v = ((float)((HSV)ledArray[i]).v) * backgroundAlpha;
+
+        ledArray[i] = { ledArray[i].h, ledArray[i].s, ((float)(ledArray[i].v)) * backgroundAlpha };
+    }
 }
 
 void redBkgMode(HSV ledArray[], int width, int height) {
