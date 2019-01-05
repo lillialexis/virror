@@ -8,16 +8,16 @@ int rainbowColors[180];
 int backgroundMode = 0;
 
 enum backgroundModes {
-        RainbowMode,
-        RedMode,
-        BackgroundModesCount
+        //RAINBOW_MODE,
+        //CIRCLE_MODE,
+        RED_MODE,
+        RED_GRADIENT_MODE,
+        BACKGROUND_MODES_COUNT
 };
 
 void backgroundSetup() {
     for (int i =  0; i< 180; i++) {
         int hue = i * 2;
-        int saturation = 100;
-        int lightness = 50;
         // pre-compute the 180 rainbow colors
         rainbowColors[i] = hue;//makeColor(hue, saturation, lightness);
     }
@@ -26,21 +26,31 @@ void backgroundSetup() {
 void newBackgroundMode() {
     backgroundMode++;
 
-    if (backgroundMode == BackgroundModesCount) {
+    if (backgroundMode == BACKGROUND_MODES_COUNT) {
         backgroundMode = 0;
     }
 }
 
 // TODO: Implement mode variants
-void applyBackground(int ledArray[], int width, int height) {//, int modeVariant1, int modeVariant2, int modeVariant3) {
+void applyBackground(HSL ledArray[], int width, int height) {//, int modeVariant1, int modeVariant2, int modeVariant3) {
     switch (backgroundMode) {
-        case RainbowMode: {
-            rainbow(ledArray, width, height, RAINBOW_MODE_PHASE_SHIFT, RAINBOW_MODE_CYCLE_TIME);
+//        case RAINBOW_MODE: {
+//            rainbow(ledArray, width, height, RAINBOW_MODE_PHASE_SHIFT, RAINBOW_MODE_CYCLE_TIME);
+//            break;
+//        }
+
+//        case CIRCLE_MODE: {
+//            movingCircle(ledArray, width, height);
+//            break;
+//        }
+
+        case RED_MODE: {
+            red(ledArray, width, height);
             break;
         }
 
-        case RedMode: {
-            red(ledArray, width, height);
+        case RED_GRADIENT_MODE: {
+            redGradient(ledArray, width, height);
             break;
         }
 
@@ -51,10 +61,21 @@ void applyBackground(int ledArray[], int width, int height) {//, int modeVariant
     }
 }
 
-void red(int ledArray[], int width, int height) {
+void red(HSL ledArray[], int width, int height) {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            ledArray[rc2iLeds(y, x)] = 0;
+            ledArray[rc2iLeds(y, x)] = {0, DEFAULT_SATURATION, DEFAULT_LIGHTNESS};
+        }
+    }
+}
+
+void redGradient(HSL ledArray[], int width, int height) {
+    for (int x = 0; x < LED_WIDTH; x++) {
+        for (int y = 0; y < LED_HEIGHT; y++) {
+            int saturation = ((float) x / (float) LED_WIDTH) * 100;
+            int lightness = ((float) y / (float) LED_HEIGHT) * 100;
+
+            ledArray[rc2iLeds(y, x)] = {0, saturation, lightness};
         }
     }
 }
@@ -68,7 +89,7 @@ void red(int ledArray[], int width, int height) {
 // the entire 360 degrees of the color wheel:
 // Red -> Orange -> Yellow -> Green -> Blue -> Violet -> Red
 //
-void rainbow(int ledArray[], int width, int height, int phaseShift, int cycleTime) {
+void rainbow(HSL ledArray[], int width, int height, int phaseShift, int cycleTime) {
     //int waitThreshold = cycleTime / (width * height);
 
     static int color = 0;
@@ -84,7 +105,7 @@ void rainbow(int ledArray[], int width, int height, int phaseShift, int cycleTim
         for (int y = 0; y < LED_HEIGHT; y++) {
             int index = (color + x + y*phaseShift/2) % 180;
 
-            ledArray[rc2iLeds(y, x)] = rainbowColors[index];
+            ledArray[rc2iLeds(y, x)] = {rainbowColors[index], DEFAULT_SATURATION, DEFAULT_LIGHTNESS};
         }
     }
 

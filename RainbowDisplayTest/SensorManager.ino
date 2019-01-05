@@ -8,11 +8,64 @@ void scanSetup() {
 }
 
 #ifdef DEV_SCAN
+enum devDetectorTriggerStates {
+    NOT_TRIGGERED_1,
+    LEFT_TRIGGERED,
+    NOT_TRIGGERED_2,
+    RIGHT_TRIGGERED,
+    NOT_TRIGGERED_3,
+    BOTH_TRIGGERED,
+    NUM_STATES
+};
+
+#define TRIGGERED_STATE_COUNTER_TIMEOUT     20
+#define NOT_TRIGGERED_STATE_COUNTER_TIMEOUT 100
+
 void readScan() {
     static int loopCounter = 0;
     static int modeCounter = 0;
 
-    // TODO
+    static int triggerCounter = 0;
+    static int triggerState = NOT_TRIGGERED_1;
+
+    if (triggerState % 2 == 0 &&
+        triggerCounter == NOT_TRIGGERED_STATE_COUNTER_TIMEOUT) {
+
+        triggerState = triggerState++ % NUM_STATES;
+        triggerCounter = 0;
+
+    } else if (triggerState % 2 == 1 &&
+        triggerCounter == TRIGGERED_STATE_COUNTER_TIMEOUT) {
+
+        triggerState = triggerState++ % NUM_STATES;
+        triggerCounter = 0;
+    }
+
+    addData();
+
+    if (triggerState == LEFT_TRIGGERED || triggerState == BOTH_TRIGGERED) {
+        addLeftTrigger();
+    }
+
+    if (triggerState == RIGHT_TRIGGERED || triggerState == BOTH_TRIGGERED) {
+        addRightTrigger();
+    }
+}
+
+void addData() {
+
+}
+
+void addLeftTrigger() {
+//    for (int i = 0; i < MODE_CHANGE_DETECTION_WIDTH; i++) {
+//        for (int j = 0; j < MODE_CHANGE_DETECTION_HEIGHT; j++) { // TODO: If the scan data comes in from the bottom, flip these conditions
+//            rawScanArray[rc2iScan(j, i)] = ;
+//        }
+//    }
+}
+
+void addRightTrigger() {
+
 }
 #endif
 
@@ -31,8 +84,8 @@ void readScan() {
 #define MODE_CHANGE_DETECTION_THRESHOLD 40
 #define MODE_CHANGE_DETECTION_WIDTH     15
 #define MODE_CHANGE_DETECTION_HEIGHT    3
-#define POS_COUNT_THRESHOLD   10
-#define NEG_COUNT_THRESHOLD   5
+#define POS_COUNTER_TIMEOUT   10
+#define NEG_COUNTER_TIMEOUT   5
 
 bool checkForegroundModeChange() {
     static int positiveCounterFgd = 0;
@@ -52,12 +105,12 @@ bool checkForegroundModeChange() {
         negativeCounterFgd++;
     }
 
-    if (positiveCounterFgd > POS_COUNT_THRESHOLD) {
+    if (positiveCounterFgd > POS_COUNTER_TIMEOUT) {
         positiveCounterFgd = 0;
         negativeCounterFgd = 0;
 
         return true;
-    } else if (negativeCounterFgd > NEG_COUNT_THRESHOLD) {
+    } else if (negativeCounterFgd > NEG_COUNTER_TIMEOUT) {
         positiveCounterFgd = 0;
         negativeCounterFgd = 0;
 
@@ -85,12 +138,12 @@ bool checkBackgroundModeChange() {
         negativeCounterBgd++;
     }
 
-    if (positiveCounterBgd > POS_COUNT_THRESHOLD) {
+    if (positiveCounterBgd > POS_COUNTER_TIMEOUT) {
         positiveCounterBgd = 0;
         negativeCounterBgd = 0;
 
         return true;
-    } else if (negativeCounterBgd > NEG_COUNT_THRESHOLD) {
+    } else if (negativeCounterBgd > NEG_COUNTER_TIMEOUT) {
         positiveCounterBgd = 0;
         negativeCounterBgd = 0;
 

@@ -51,8 +51,8 @@ const int config = WS2811_GRB | WS2811_800kHz;
 
 OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, config);
 
+HSL ledArray[LED_WIDTH * LED_HEIGHT];
 int scanArray[LED_WIDTH * LED_HEIGHT];
-int ledArray[LED_WIDTH * LED_HEIGHT];
 
 //int rainbowColors[180];
 // The display size and color to use
@@ -87,7 +87,7 @@ void setup() {
 //    }
 //  }
 
-    memset(ledArray, 0, LED_WIDTH * LED_HEIGHT * sizeof(int));
+    memset(ledArray, 0, LED_WIDTH * LED_HEIGHT * sizeof(HSL));
     memset(scanArray, 0, LED_WIDTH * LED_HEIGHT * sizeof(int));
 
     scanSetup();
@@ -98,11 +98,9 @@ void setup() {
     leds.begin();
 }
 
-#define MODE_CHANGE_COUNTER_THRESHOLD 200000
-
 void loop() {
     /* Initialize the background- and foreground-mode change counters. */
-    static unsigned int backgroundModeChangeCounter = (MODE_CHANGE_COUNTER_THRESHOLD / 2);
+    static unsigned int backgroundModeChangeCounter = (MODE_CHANGE_COUNTER_TIMEOUT / 2);
     static unsigned int foregroundModeChangeCounter = 0;
 
     /* Get the scan. Did our scan detect a mode change? */
@@ -111,7 +109,7 @@ void loop() {
     /* If the scan detected a background-mode change or if our background-mode change counter hit
      * the threshold, change the background mode. */
     if (modeMask & BACKGROUND_CHANGE ||
-        backgroundModeChangeCounter == MODE_CHANGE_COUNTER_THRESHOLD) {
+        backgroundModeChangeCounter == MODE_CHANGE_COUNTER_TIMEOUT) {
             newBackgroundMode();
 
             backgroundModeChangeCounter = 0;
@@ -120,7 +118,7 @@ void loop() {
     /* If the scan detected a foreground-mode change or if our foreground-mode change counter hit
      * the threshold, change the foreground mode. */
     if (modeMask & FOREGROUND_CHANGE ||
-        foregroundModeChangeCounter == MODE_CHANGE_COUNTER_THRESHOLD) {
+        foregroundModeChangeCounter == MODE_CHANGE_COUNTER_TIMEOUT) {
             newForegroundMode();
 
             foregroundModeChangeCounter = 0;
@@ -139,7 +137,7 @@ void loop() {
 
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            leds.setPixel(xy(x, y), makeColor(ledArray[rc2iLeds(y, x)], 100, 50));
+            leds.setPixel(xy(x, y), makeColor(ledArray[rc2iLeds(y, x)]));//, 100, 50));
         }
     }
 

@@ -30,10 +30,25 @@
 #define SCAN_WIDTH  80
 #define SCAN_HEIGHT 14
 
+#define MODE_CHANGE_COUNTER_TIMEOUT 100000
+
 #define FOREGROUND_CHANGE 1
 #define BACKGROUND_CHANGE 2
 
-#define CYCLE_TIME 2500
+//#define CYCLE_TIME 2500
+
+
+typedef struct {
+    unsigned int h;
+    unsigned int s;
+    unsigned int l;
+} HSL;
+
+#define DEFAULT_SATURATION 100
+#define DEFAULT_LIGHTNESS  50
+
+#define BYTE_MAX 255
+
 
 //extern const float HORZ_SCALE_FACTOR ((float) LED_WIDTH / )
 
