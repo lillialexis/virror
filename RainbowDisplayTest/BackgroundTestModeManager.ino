@@ -9,7 +9,7 @@ enum backgroundTestModes {
 //    MOVING_CIRCLE_BKG_TEST_MODE,
 //    RED_BKG_TEST_MODE,
 //    RED_GRADIENT_BKG_TEST_MODE,
-    RED_SATURATION_GRADIENT_BKG_TEST_MODE,
+//    RED_SATURATION_GRADIENT_BKG_TEST_MODE,
     RED_BRIGHTNESS_GRADIENT_BKG_TEST_MODE,
     BACKGROUND_TEST_MODES_COUNT
 };
@@ -46,10 +46,10 @@ void applyTestBackground(HSV ledArray[], int width, int height) {
 //            break;
 //        }
 
-        case RED_SATURATION_GRADIENT_BKG_TEST_MODE: {
-            redBkgSaturationGradientTestMode(ledArray, width, height);
-            break;
-        }
+//        case RED_SATURATION_GRADIENT_BKG_TEST_MODE: {
+//            redBkgSaturationGradientTestMode(ledArray, width, height);
+//            break;
+//        }
 
         case RED_BRIGHTNESS_GRADIENT_BKG_TEST_MODE: {
             redBkgBrightnessGradientTestMode(ledArray, width, height);

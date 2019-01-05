@@ -54,38 +54,9 @@ OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, config);
 HSV ledArray[LED_WIDTH * LED_HEIGHT];
 int scanArray[LED_WIDTH * LED_HEIGHT];
 
-//int rainbowColors[180];
-// The display size and color to use
-
-//const unsigned int scan_width = 80;
-//const unsigned int scan_height = 14;
-//
-//int alphaArray[scan_width * scan_height];
-//
-//int rc2i(int row, int col) {
-//  return (row * scan_width) + col;
-//}
-
 void setup() {
     pinMode(1, OUTPUT);
     digitalWrite(1, HIGH);
-//  for (int i=0; i<180; i++) {
-//    int hue = i * 2;
-//    int saturation = 100;
-//    int lightness = 50;
-//    // pre-compute the 180 rainbow colors
-//    rainbowColors[i] = hue;//makeColor(hue, saturation, lightness);
-//  }
-
-//  for (int i = 0; i < scan_height; i++) {
-//    for (int j = 0; j < scan_width; j++) {
-//      if (i > 3 && i < 10 && j > 20 && j < 70) {
-//        alphaArray[rc2i(i, j)] = 50;
-//      } else {
-//        alphaArray[rc2i(i, j)] = 50;//0;
-//      }
-//    }
-//  }
 
     Serial.begin(9600);
 
@@ -101,45 +72,14 @@ void setup() {
 }
 
 void loop() {
-    /* Initialize the background- and foreground-mode change counters. */
-    static unsigned int backgroundModeChangeCounter = (MODE_CHANGE_COUNTER_TIMEOUT / 2);
-    static unsigned int foregroundModeChangeCounter = 0;
-
-    /* Get the scan. Did our scan detect a mode change? */
-    int modeMask = scan(scanArray, LED_WIDTH, LED_HEIGHT);
-
-    /* If the scan detected a background-mode change or if our background-mode change counter hit
-     * the threshold, change the background mode. */
-    if (modeMask & BACKGROUND_CHANGE ||
-        backgroundModeChangeCounter == MODE_CHANGE_COUNTER_TIMEOUT) {
-            newBackgroundMode();
-
-            backgroundModeChangeCounter = 0;
-    }
-
-    /* If the scan detected a foreground-mode change or if our foreground-mode change counter hit
-     * the threshold, change the foreground mode. */
-    if (modeMask & FOREGROUND_CHANGE ||
-        foregroundModeChangeCounter == MODE_CHANGE_COUNTER_TIMEOUT) {
-            newForegroundMode();
-
-            foregroundModeChangeCounter = 0;
-    }
-
-    /* Increase the background- and foreground-mode change counters. */
-    foregroundModeChangeCounter++;
-    backgroundModeChangeCounter++;
-
-    /* Apply the loop's new background, then mix with the loop's new foreground. */
-    applyBackground(ledArray, LED_WIDTH, LED_HEIGHT);
-    applyForeground(scanArray, ledArray, LED_WIDTH, LED_HEIGHT);
+    getFrame(scanArray, ledArray, LED_WIDTH, LED_HEIGHT);
 
     /* Set the pixels and loop.*/
     digitalWrite(1, HIGH);
 
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            leds.setPixel(xy(x, y), makeColor(ledArray[rc2iLeds(y, x)]));//, 100, 50));
+            leds.setPixel(xy2i(x, y), makeColor(ledArray[rc2iLeds(y, x)]));
         }
     }
 
@@ -147,71 +87,5 @@ void loop() {
     digitalWrite(1, LOW);
 }
 
-//int applyAlpha(int oldColor, int aVal) {
-//    return makeColor(oldColor, 100, aVal);
-//
-////  if (aVal) {
-////    return 0;
-////  }
-////
-////  return oldColor;
-//}
-//
-//int aValFromArray(int x, int y) {
-//  int newY = ((float) y) / 3.43;
-//  int newX = ((float) x) * 1.25 * 2.0;
-//
-//  return alphaArray[rc2i(newY, newX)];
-//}
 
-
-//// phaseShift is the shift between each row.  phaseShift=0
-//// causes all rows to show the same colors moving together.
-//// phaseShift=180 causes each row to be the opposite colors
-//// as the previous.
-////
-//// cycleTime is the number of milliseconds to shift through
-//// the entire 360 degrees of the color wheel:
-//// Red -> Orange -> Yellow -> Green -> Blue -> Violet -> Red
-////
-//void rainbow(int phaseShift, int cycleTime)
-//{
-//  int color, x, y, offset, wait;
-//
-//  wait = cycleTime * 1000 / ledsPerStrip;
-//  for (color=0; color < 180; color++) {
-//    digitalWrite(1, HIGH);
-//    for (x=0; x < LED_WIDTH; x++) {
-//      for (y=0; y < LED_HEIGHT; y++) {
-//        int index = (color + x + y*phaseShift/2) % 180;
-////        leds.setPixel(x + y*ledsPerStrip, rainbowColors[index]);
-//
-//        int origColor = rainbowColors[index];
-//        int aVal = aValFromArray(x, y);
-//        int newColor = applyAlpha(origColor, aVal);
-//
-//        leds.setPixel(xy(x,y), newColor);
-//      }
-//    }
-//    leds.show();
-//    digitalWrite(1, LOW);
-//    delayMicroseconds(wait);
-//  }
-//}
-
-// TODO: Probably move to util.ino
-unsigned int xy(unsigned int x, unsigned int y) {
-    bool LorR;
-    y = LED_HEIGHT - y - 1; // invert display
-
-    if (y % 16 < 8) // 2 * 8 strands run back and fourth
-        { LorR = true; } // line goes LtoR
-    else { LorR = false; } // line goes RtoL
-
-    unsigned int channel_index = (y % 8) * ledsPerPin; // array index for start of the LED strand of the LED in question
-    unsigned int strand_index = (y / 8) * LED_WIDTH;
-
-    if (LorR) { return channel_index + strand_index + x; }
-    else { return channel_index + strand_index + LED_WIDTH - x - 1; }
-}
 
