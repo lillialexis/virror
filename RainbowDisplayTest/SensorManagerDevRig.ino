@@ -43,7 +43,7 @@ void readScan() {
     triggerCounter++;
 }
 
-#define MOVE_CIRCLE_TIMEOUT 20
+#define MOVE_CIRCLE_TIMEOUT 30
 void addData() {
     static unsigned int moveCounter = 0;
 

@@ -7,6 +7,7 @@ typedef enum {
 } ModeState;
 
 void getFrame(int scanArray[], HSV ledArray[], int width, int height) {
+
     /* Initialize the background- and foreground-mode change counters. */
     static unsigned int backgroundModeTimeoutCounter = 0;
     static unsigned int foregroundModeTimeoutCounter = 0;
@@ -50,6 +51,13 @@ void getFrame(int scanArray[], HSV ledArray[], int width, int height) {
 
                 backgroundState = MODE_STATE_FADING_OUT;
                 backgroundModeTimeoutCounter = 0;
+
+                if (modeMask & BACKGROUND_MODE_CHANGE_FLAG) {
+                    addRipple({ACTIVE_RIPPLE, TODO_FIXME_RIPPLE_X_1,
+                               TODO_FIXME_RIPPLE_Y, DEFAULT_RIPPLE_RADIUS,
+                               DEFAULT_RIPPLE_WAVE_DURATION, DEFAULT_RIPPLE_TOTAL_DURATION,
+                               DEFAULT_RIPPLE_CURRENT_FRAME, DEFAULT_RIPPLE_NUM_WAVES});
+                }
 
         } else {
             backgroundModeTimeoutCounter++;
@@ -104,6 +112,14 @@ void getFrame(int scanArray[], HSV ledArray[], int width, int height) {
                 foregroundState = MODE_STATE_FADING_OUT;
                 foregroundModeTimeoutCounter = 0;
 
+
+                if (modeMask & FOREGROUND_MODE_CHANGE_FLAG) {
+                    addRipple({ACTIVE_RIPPLE, TODO_FIXME_RIPPLE_X_2,
+                               TODO_FIXME_RIPPLE_Y, DEFAULT_RIPPLE_RADIUS,
+                               DEFAULT_RIPPLE_WAVE_DURATION, DEFAULT_RIPPLE_TOTAL_DURATION,
+                               DEFAULT_RIPPLE_CURRENT_FRAME, DEFAULT_RIPPLE_NUM_WAVES});
+                }
+
         } else {
             foregroundModeTimeoutCounter++;
 
@@ -130,9 +146,18 @@ void getFrame(int scanArray[], HSV ledArray[], int width, int height) {
         }
     }
 
+//    if (globalFrame % 23 == 0) {
+//        Serial.println("gf");
+//        addRipple({ACTIVE_RIPPLE, globalFrame % 16,
+//                   (globalFrame * 2) % 16, DEFAULT_RIPPLE_RADIUS,
+//                   DEFAULT_RIPPLE_WAVE_DURATION, DEFAULT_RIPPLE_TOTAL_DURATION,
+//                   DEFAULT_RIPPLE_CURRENT_FRAME, DEFAULT_RIPPLE_NUM_WAVES});
+//    }
+
     /* Apply the loop's new background, then mix with the loop's new foreground. */
     applyBackground(ledArray, LED_WIDTH, LED_HEIGHT, backgroundAlpha, backgroundModeFrame);
     applyForeground(scanArray, ledArray, LED_WIDTH, LED_HEIGHT, foregroundAlpha, foregroundModeFrame);
+    applyFeedback(ledArray, LED_WIDTH, LED_HEIGHT);
 
     globalFrame++;
     backgroundModeFrame++;

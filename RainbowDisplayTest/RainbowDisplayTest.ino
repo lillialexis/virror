@@ -66,6 +66,7 @@ void setup() {
     scanSetup();
     backgroundSetup();
     foregroundSetup();
+    feedbackSetup();
 
     digitalWrite(1, LOW);
     leds.begin();

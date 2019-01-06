@@ -8,6 +8,10 @@ int rc2iLeds(int row, int col) {
 	return (row * LED_WIDTH) + col;
 }
 
+float dist(float x1, float y1, float x2, float y2) {
+    return sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2)));
+}
+
 unsigned int xy2i(unsigned int x, unsigned int y) {
     bool LorR;
     y = LED_HEIGHT - y - 1; // invert display

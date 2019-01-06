@@ -52,8 +52,8 @@
 /* If a mode change isn't triggered by the user, this is how long a mode runs before
  * changing automatically. */
 //#define MODE_CHANGE_DEFAULT_TIMEOUT 100000
-//#define MODE_CHANGE_DEFAULT_TIMEOUT 20000
-#define MODE_CHANGE_DEFAULT_TIMEOUT 2000
+#define MODE_CHANGE_DEFAULT_TIMEOUT 20000
+//#define MODE_CHANGE_DEFAULT_TIMEOUT 2000
 
 /* This is how long it takes the mode to fade in/out */
 #define MODE_CHANGE_FADE_DURATION 127
@@ -139,16 +139,40 @@ typedef enum {
 } yDirection;
 
 typedef struct {
-    float x;// = 0;
-    float y;// = 0;
+    float x;
+    float y;
     float width;
     float height;
-    float rise;// = LED_HEIGHT;
-    float run;// = LED_WIDTH;
-    xDirection xDir;// = LEFT;
-    yDirection yDir;// = DOWN;
-    float radius;// = LED_WIDTH;
+    float rise;
+    float run;
+    xDirection xDir;
+    yDirection yDir;
+    float radius;
 } Circle;
+
+typedef struct {
+    bool active;
+    float x;
+    float y;
+    float radius;
+    unsigned int waveDuration;
+    unsigned int totalDuration;
+    unsigned int currentFrame;
+    unsigned int waves;
+} Ripple;
+
+#define ACTIVE_RIPPLE                 true
+#define DEFAULT_RIPPLE_RADIUS         8
+#define DEFAULT_RIPPLE_WAVE_DURATION  10
+#define DEFAULT_RIPPLE_TOTAL_DURATION (MODE_CHANGE_FADE_DURATION * 2)
+#define DEFAULT_RIPPLE_CURRENT_FRAME  0
+#define DEFAULT_RIPPLE_NUM_WAVES      4
+
+#define TODO_FIXME_RIPPLE_X_1 14
+#define TODO_FIXME_RIPPLE_X_2 2
+#define TODO_FIXME_RIPPLE_Y   2
+
+#define MAX_RIPPLES 10
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * OTHER TYPES AND CONSTANTS * * * * * * * * * * * * * * * * * *
