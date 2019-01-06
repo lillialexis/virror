@@ -14,8 +14,8 @@ enum devDetectorTriggerStates {
 #define NOT_TRIGGERED_STATE_COUNTER_TIMEOUT 10000
 
 void readScan() {
-    static int triggerCounter = 0;
-    static int triggerState = NOT_TRIGGERED_1;
+    static unsigned int triggerCounter = 0;
+    static unsigned int triggerState = NOT_TRIGGERED_1;
 
     if (triggerState % 2 == 0 &&
         triggerCounter == NOT_TRIGGERED_STATE_COUNTER_TIMEOUT) {
@@ -45,7 +45,9 @@ void readScan() {
 
 #define MOVE_CIRCLE_TIMEOUT 20
 void addData() {
-    static int moveCounter = 0;
+    static unsigned int moveCounter = 0;
+
+#ifdef USING_MOVING_SCAN_CIRCLE
     static Circle circle = {0.0, 0.0, SCAN_WIDTH, SCAN_HEIGHT, 0.25, 1.0, LEFT, DOWN, 4.0};
 
     moveCounter++;
@@ -54,6 +56,10 @@ void addData() {
     }
 
     moveCircle(&circle);
+
+#else
+    static Circle circle = {SCAN_WIDTH / 2, SCAN_HEIGHT / 2, SCAN_WIDTH, SCAN_HEIGHT, 0.25, 1.0, LEFT, DOWN, 2.0};
+#endif
 
     for (int x = 0; x < SCAN_HEIGHT; x++) {
         for (int y = 0; y < SCAN_WIDTH; y++) {

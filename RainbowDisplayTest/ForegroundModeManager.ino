@@ -26,7 +26,9 @@ void newForegroundMode() {
     }
 }
 
-void applyForeground(int scanArray[], HSV ledArray[], unsigned int width, unsigned int height, float foregroundAlpha) {
+void applyForeground(int scanArray[], HSV ledArray[], unsigned int width, unsigned int height,
+        float foregroundAlpha, unsigned int foregroundModeFrame) {
+
     if (foregroundAlpha != 1.0) {
         applyForegroundAlpha(scanArray, width, height, foregroundAlpha);
     }
@@ -44,10 +46,11 @@ void applyForeground(int scanArray[], HSV ledArray[], unsigned int width, unsign
     }
 }
 
-void applyForegroundAlpha(int scanArray[], unsigned int width, unsigned int height, unsigned int foregroundAlpha) {
+void applyForegroundAlpha(int scanArray[], unsigned int width, unsigned int height,
+        float foregroundAlpha) {
+
     for (int i = 0; i < width * height; i++) {
-//        scanArray[i] = round(((float)scanArray[i] * foregroundAlpha);
-        scanArray[i] = (float)scanArray[i] * foregroundAlpha;
+        scanArray[i] = round(((float)scanArray[i]) * foregroundAlpha);
     }
 }
 

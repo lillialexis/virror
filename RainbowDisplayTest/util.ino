@@ -22,7 +22,3 @@ unsigned int xy2i(unsigned int x, unsigned int y) {
     if (LorR) { return channel_index + strand_index + x; }
     else { return channel_index + strand_index + LED_WIDTH - x - 1; }
 }
-//
-//int round(float f) {
-//    return (int)f;
-//}

@@ -16,9 +16,11 @@
 #define DEV_SCAN
 //#define REAL_SCAN
 
-#define USING_BKG_TEST_MODES
+#define RESET_MODE_CHANGE_TRIGGERS_ON_POSITIVE // TODO: Test which is better with real sensor data
 
+//#define USING_BKG_TEST_MODES
 #define USING_TEST_MODE_CHANGE_TRIGGERS
+#define USING_MOVING_SCAN_CIRCLE
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -47,11 +49,16 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * MODE CHANGE TYPES AND CONSTANTS * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-//#define MODE_CHANGE_COUNTER_TIMEOUT 100000
-#define MODE_CHANGE_COUNTER_TIMEOUT 20000
+/* If a mode change isn't triggered by the user, this is how long a mode runs before
+ * changing automatically. */
+//#define MODE_CHANGE_DEFAULT_TIMEOUT 100000
+//#define MODE_CHANGE_DEFAULT_TIMEOUT 20000
+#define MODE_CHANGE_DEFAULT_TIMEOUT 2000
 
+/* This is how long it takes the mode to fade in/out */
 #define MODE_CHANGE_FADE_DURATION 127
 
+/* These are the states of the foreground and background modes. */
 enum ModeChangeMask {
     NO_MODE_CHANGE = 0,
     FOREGROUND_MODE_CHANGE_FLAG = 1,
@@ -76,10 +83,10 @@ typedef struct {
  * to values that make sense and are the right amount of "sensitive" once we have the real scan
  * hardware set up. */
 #ifdef USING_TEST_MODE_CHANGE_TRIGGERS
-#define MODE_CHANGE_DETECTION_THRESHOLD 40
+#define MODE_CHANGE_DETECTION_THRESHOLD 100
 #define MODE_CHANGE_DETECTION_WIDTH     4//15 // TODO: Change once scaling is implemented
 #define MODE_CHANGE_DETECTION_HEIGHT    4//3 // TODO: Change once scaling is implemented
-#define POS_COUNTER_TIMEOUT   200
+#define POS_COUNTER_TIMEOUT   300
 #define NEG_COUNTER_TIMEOUT   100
 #else
 #define MODE_CHANGE_DETECTION_THRESHOLD 40

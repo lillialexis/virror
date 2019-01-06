@@ -38,8 +38,13 @@ bool checkForegroundModeChange() {
     }
 
     if (positiveCounterFgd > POS_COUNTER_TIMEOUT) {
+#ifdef RESET_MODE_CHANGE_TRIGGERS_ON_POSITIVE
         positiveCounterFgd = 0;
         negativeCounterFgd = 0;
+#else
+        /* Since our mode change triggers are ignored during fade transitions, keep returning
+         * true until the negativeCounter hits its threshold, _then_ reset our counters. */
+#endif
 
         return true;
     } else if (negativeCounterFgd > NEG_COUNTER_TIMEOUT) {
@@ -71,8 +76,13 @@ bool checkBackgroundModeChange() {
     }
 
     if (positiveCounterBgd > POS_COUNTER_TIMEOUT) {
+#ifdef RESET_MODE_CHANGE_TRIGGERS_ON_POSITIVE
         positiveCounterBgd = 0;
         negativeCounterBgd = 0;
+#else
+        /* Since our mode change triggers are ignored during fade transitions, keep returning
+         * true until the negativeCounter hits its threshold, _then_ reset our counters. */
+#endif
 
         return true;
     } else if (negativeCounterBgd > NEG_COUNTER_TIMEOUT) {

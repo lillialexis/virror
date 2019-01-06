@@ -1,12 +1,12 @@
-
+#include <math.h>
 #include "Defines.h"
 
 #define RAINBOW_MODE_PHASE_SHIFT   10
-#define RAINBOW_MODE_SHIFT_TIMEOUT 40
+#define RAINBOW_MODE_SHIFT_TIMEOUT 20
 
 ModeVariants backgroundModeVariants = {0, 0, 0, 0, 0}; // TODO: Am I stepping on memory with the way this is implemented?
 
-int rainbowColors[127];
+//int rainbowColors[127];
 
 int backgroundMode = 0;
 enum backgroundModes {
@@ -21,10 +21,10 @@ void backgroundSetup() {
     backgroundTestSetup();
 #else
 
-    for (int i =  0; i < 127; i++) {
-        /* Pre-compute the 127 rainbow colors */
-        rainbowColors[i] = i * 2;
-    }
+//    for (int i =  0; i < 127; i++) {
+//        /* Pre-compute the 127 rainbow colors */
+//        rainbowColors[i] = i * 2;
+//    }
 #endif
 }
 
@@ -52,10 +52,11 @@ void newBackgroundMode() {
 #endif
 }
 
-void applyBackground(HSV ledArray[], unsigned int width, unsigned int height, float backgroundAlpha) {
+void applyBackground(HSV ledArray[], unsigned int width, unsigned int height,
+        float backgroundAlpha, unsigned int backgroundModeFrame) {
 
 #ifdef USING_BKG_TEST_MODES
-    applyTestBackground(ledArray, width, height);
+    applyTestBackground(ledArray, width, height, backgroundModeFrame);
 #else
 
     switch (backgroundMode) {
@@ -81,18 +82,18 @@ void applyBackground(HSV ledArray[], unsigned int width, unsigned int height, fl
     }
 }
 
-void applyBackgroundAlpha(HSV ledArray[], unsigned int width, unsigned int height, unsigned int backgroundAlpha) {
-    for (int i = 0; i < width * height; i++) {
-        //((HSV)ledArray[i]).v = round(((float)((HSV)ledArray[i]).v) * backgroundAlpha);
-        //((HSV)ledArray[i]).v = ((float)((HSV)ledArray[i]).v) * backgroundAlpha;
+void applyBackgroundAlpha(HSV ledArray[], unsigned int width, unsigned int height,
+        float backgroundAlpha) {
 
-        ledArray[i] = { ledArray[i].h, ledArray[i].s, ((float)(ledArray[i].v)) * backgroundAlpha };
+    for (int i = 0; i < width * height; i++) {
+        ledArray[i] =
+                { ledArray[i].h, ledArray[i].s, round(((float)(ledArray[i].v)) * backgroundAlpha) };
     }
 }
 
 void redBkgMode(HSV ledArray[], int width, int height) {
-    for (int x = 0; x < LED_WIDTH; x++) {
-        for (int y = 0; y < LED_HEIGHT; y++) {
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
             ledArray[rc2iLeds(y, x)] = {0, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
         }
     }
@@ -108,24 +109,23 @@ void redBkgMode(HSV ledArray[], int width, int height) {
 // Red -> Orange -> Yellow -> Green -> Blue -> Violet -> Red
 //
 void rainbowBkgMode(HSV ledArray[], int width, int height, int phaseShift, int updateTimeout) {
-    static int color = 0;
-    static int colorChangeCounter = updateTimeout; // Setting this to max to set the initial colors
+    static unsigned int colorIndex = 0;
+    static unsigned int colorChangeCounter = 0;
 
-    colorChangeCounter++;
-
-    if (colorChangeCounter < updateTimeout) {
-        return;
+    if (colorChangeCounter >= updateTimeout) {
+        colorIndex++;
+        colorChangeCounter = 0;
     }
 
-    for (int x = 0; x < LED_WIDTH; x++) {
-        for (int y = 0; y < LED_HEIGHT; y++) {
-            int index = (color + x + y * phaseShift / 2) % 127;
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            unsigned int color = (colorIndex + x + y * phaseShift / 2) % 255;
 
-            ledArray[rc2iLeds(y, x)] = {rainbowColors[index], DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
+            ledArray[rc2iLeds(y, x)] = {color, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
         }
     }
 
+    colorChangeCounter++;
+
     // TODO: Seems to have a weirdly shortened red band; fix
-    color++;
-    colorChangeCounter = 0;
 }
