@@ -123,9 +123,9 @@ HSV rgbToHsv(RGB rgb) {
 }
 
 HSV mixHsv(HSV background, HSV foreground, float foregroundOpacity) {
-    static int counter = 0;
+   static int counter = 0;
 
-    if (counter == 50) {
+    if (counter == 5000) {
         printHsv("hsv1", background);
         printHsv("hsv2", foreground);
     }
@@ -133,19 +133,19 @@ HSV mixHsv(HSV background, HSV foreground, float foregroundOpacity) {
     RGB backgroundRGB = hsvToRgb(background);
     RGB foregroundRGB = hsvToRgb(foreground);
 
-    if (counter == 50) {
+    if (counter == 5000) {
         printRgb("rgb1", backgroundRGB);
         printRgb("rgb2", foregroundRGB);
     }
 
-    byte newR = (byte)(((foregroundOpacity * (float)foregroundRGB.r) + ((1 - foregroundOpacity) * (float)backgroundRGB.r)));// % BYTE_MAX;
-    byte newG = (byte)(((foregroundOpacity * (float)foregroundRGB.g) + ((1 - foregroundOpacity) * (float)backgroundRGB.g)));// % BYTE_MAX;
-    byte newB = (byte)(((foregroundOpacity * (float)foregroundRGB.b) + ((1 - foregroundOpacity) * (float)backgroundRGB.b)));// % BYTE_MAX;
+    byte newR = (byte)(((foregroundOpacity * (float)foregroundRGB.r) + ((1 - foregroundOpacity) * (float)backgroundRGB.r)));
+    byte newG = (byte)(((foregroundOpacity * (float)foregroundRGB.g) + ((1 - foregroundOpacity) * (float)backgroundRGB.g)));
+    byte newB = (byte)(((foregroundOpacity * (float)foregroundRGB.b) + ((1 - foregroundOpacity) * (float)backgroundRGB.b)));
 
     RGB rgb = { newR, newG, newB };
     HSV hsv = rgbToHsv(rgb);
 
-    if (counter == 50) {
+    if (counter == 5000) {
         printRgb("new rgb", rgb);
         printHsv("new hsv", hsv);
     }
