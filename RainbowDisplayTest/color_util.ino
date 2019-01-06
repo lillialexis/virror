@@ -155,6 +155,21 @@ HSV mixHsv(HSV background, HSV foreground, float foregroundOpacity) {
     return hsv;
 }
 
+HSV transitionHsv(HSV start, HSV stop, float percent) {
+
+    RGB startRGB = hsvToRgb(start);
+    RGB stopRGB  = hsvToRgb(stop);
+
+    byte newR = (byte)(startRGB.r + (((float)(stopRGB.r - startRGB.r)) * percent));
+    byte newG = (byte)(startRGB.g + (((float)(stopRGB.g - startRGB.g)) * percent));
+    byte newB = (byte)(startRGB.b + (((float)(stopRGB.b - startRGB.b)) * percent));
+
+    RGB rgb = { newR, newG, newB };
+    HSV hsv = rgbToHsv(rgb);
+
+    return hsv;
+}
+
 void printColor(String label, byte a, byte b, byte c) {
     String str = label;
     Serial.println(str + ": { " + a + ", " + b + ", " + c + " }");

@@ -15,7 +15,8 @@ enum backgroundTestModes {
 //    RED_GRADIENT_BKG_TEST_MODE,
 //    RED_SATURATION_GRADIENT_BKG_TEST_MODE,
 //    RED_BRIGHTNESS_GRADIENT_BKG_TEST_MODE,
-    COLOR_MIX_BKG_TEST_MODE,
+//    COLOR_MIX_BKG_TEST_MODE,
+    COLOR_TRANSITION_BKG_TEST_MODE,
     BACKGROUND_TEST_MODES_COUNT
 };
 
@@ -70,8 +71,13 @@ void applyTestBackground(HSV ledArray[], unsigned int width, unsigned int height
 //            break;
 //        }
 
-        case COLOR_MIX_BKG_TEST_MODE: {
-            colorMixBkgTestMode(ledArray, width, height, backgroundModeFrame);
+//        case COLOR_MIX_BKG_TEST_MODE: {
+//            colorMixBkgTestMode(ledArray, width, height, backgroundModeFrame);
+//            break;
+//        }
+
+        case COLOR_TRANSITION_BKG_TEST_MODE: {
+            colorTransitionBkgTestMode(ledArray, width, height, backgroundModeFrame);
             break;
         }
 
@@ -85,7 +91,7 @@ void applyTestBackground(HSV ledArray[], unsigned int width, unsigned int height
 void redBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height) {
     for (unsigned int x = 0; x < width; x++) {
         for (unsigned int y = 0; y < height; y++) {
-            ledArray[rc2iLeds(y, x)] = {50, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
+            ledArray[rc2iLeds(y, x)] = { 0, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
         }
     }
 }
@@ -96,7 +102,7 @@ void redBkgGradientTestMode(HSV ledArray[], unsigned int width, unsigned int hei
             byte saturation = ((float) y / (float) height) * DEFAULT_SATURATION;
             byte value = ((float) x / (float) width) * DEFAULT_BRIGHTNESS;
 
-            ledArray[rc2iLeds(y, x)] = {0, saturation, value};
+            ledArray[rc2iLeds(y, x)] = { 0, saturation, value };
         }
     }
 }
@@ -106,7 +112,7 @@ void redBkgSaturationGradientTestMode(HSV ledArray[], unsigned int width, unsign
         for (unsigned int y = 0; y < height; y++) {
             byte saturation = ((float) x / (float) width) * DEFAULT_SATURATION;
 
-            ledArray[rc2iLeds(y, x)] = {0, saturation, DEFAULT_BRIGHTNESS};
+            ledArray[rc2iLeds(y, x)] = { 0, saturation, DEFAULT_BRIGHTNESS };
         }
     }
 }
@@ -116,7 +122,7 @@ void redBkgBrightnessGradientTestMode(HSV ledArray[], unsigned int width, unsign
         for (unsigned int y = 0; y < height; y++) {
             byte value = ((float) x / (float) width) * DEFAULT_BRIGHTNESS;
 
-            ledArray[rc2iLeds(y, x)] = {0, DEFAULT_SATURATION, value};
+            ledArray[rc2iLeds(y, x)] = { 0, DEFAULT_SATURATION, value };
         }
     }
 }
@@ -137,7 +143,7 @@ void colorMixBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height
         for (unsigned int y = 0; y < width; y++) {
             HSV h1 = SIMPLE_COLORS[counter2];
             HSV h2 = SIMPLE_COLORS[counter1];
-            HSV h3 = {0, 0, 0};
+            HSV h3 = { 0, 0, 0 };
 
             if (x < 2 || x >= (width - 2)) {
                 h3 = h1;
@@ -152,6 +158,30 @@ void colorMixBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height
     }
 }
 
+void colorTransitionBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height, unsigned int frame) {
+    static unsigned int counter1 = 0;
+    static unsigned int counter2 = 1;
+
+    const unsigned int  timeout = 750;
+    static unsigned int current = 0;
+
+    if ((frame + 1) % timeout == 0) {// TODO: If we add code to drop slow frames, this won't work if the 50th frame is dropped; fix
+        counter1 = ppm(counter1, MAX_SIMPLE_COLORS);
+        counter2 = ppm(counter1, MAX_SIMPLE_COLORS);
+        current = 0;
+    }
+
+    for (unsigned int x = 0; x < height; x++) {
+        for (unsigned int y = 0; y < width; y++) {
+            HSV h1 = SIMPLE_COLORS[counter1];
+            HSV h2 = SIMPLE_COLORS[counter2];
+
+            ledArray[rc2iLeds(y, x)] = transitionHsv(h1, h2, (float)current/(float)timeout);
+        }
+    }
+
+    current++;
+}
 
 void movingCircleBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height, unsigned int updateTimeout) {
     static unsigned int moveCounter = 0;
@@ -172,9 +202,9 @@ void movingCircleBkgTestMode(HSV ledArray[], unsigned int width, unsigned int he
             value = (1.0 - ((1.0 - value) * (1.0 - value)));
 
             if (value) {
-                ledArray[rc2iLeds(x, y)] = {color % 255, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS - (value * MAX_BRIGHTNESS)};
+                ledArray[rc2iLeds(x, y)] = { color % 255, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS - (value * MAX_BRIGHTNESS) };
             } else {
-                ledArray[rc2iLeds(x, y)] = {0, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
+                ledArray[rc2iLeds(x, y)] = { 0, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
             }
         }
     }
@@ -186,7 +216,7 @@ void movingCircleBkgTestMode(HSV ledArray[], unsigned int width, unsigned int he
 void rainbowBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height) {
     for (unsigned int x = 0; x < width; x++) {
         for (unsigned int y = 0; y < height; y++) {
-            ledArray[rc2iLeds(y, x)] = {rc2iLeds(y, x) % 255, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
+            ledArray[rc2iLeds(y, x)] = { rc2iLeds(y, x) % 255, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
         }
     }
 }
