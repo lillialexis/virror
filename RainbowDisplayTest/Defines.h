@@ -18,9 +18,10 @@
 
 #define RESET_MODE_CHANGE_TRIGGERS_ON_POSITIVE // TODO: Test which is better with real sensor data
 
-//#define USING_BKG_TEST_MODES
-#define USING_TEST_MODE_CHANGE_TRIGGERS
+#define USING_BKG_TEST_MODES
+#define USING_MODE_CHANGE_DEV_BOUNDARIES
 //#define USING_MOVING_SCAN_CIRCLE
+#define USING_EMPTY_SCAN_DATA
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -82,7 +83,7 @@ typedef struct {
  * MODE_CHANGE_DETECTION_THRESHOLD, a mode change is triggered. We can tweak these constants
  * to values that make sense and are the right amount of "sensitive" once we have the real scan
  * hardware set up. */
-#ifdef USING_TEST_MODE_CHANGE_TRIGGERS
+#ifdef USING_MODE_CHANGE_DEV_BOUNDARIES
 #define MODE_CHANGE_DETECTION_THRESHOLD 100
 #define MODE_CHANGE_DETECTION_WIDTH     4//15 // TODO: Change once scaling is implemented
 #define MODE_CHANGE_DETECTION_HEIGHT    4//3 // TODO: Change once scaling is implemented
