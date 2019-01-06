@@ -1,4 +1,6 @@
 
+#ifdef USING_BKG_TEST_MODES
+
 #include "Defines.h"
 
 #define CIRCLE_MODE_SHIFT_TIMEOUT 100
@@ -120,7 +122,33 @@ void redBkgBrightnessGradientTestMode(HSV ledArray[], unsigned int width, unsign
 }
 
 void colorMixBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height, unsigned int frame) {
+    static unsigned int counter1 = 0;
+    static unsigned int counter2 = 0;
 
+    if ((frame + 1) % 2000 == 0) // TODO: If we add code to drop frames, this won't work if the 50th frame is dropped; fix
+        counter1 = ppm(counter1, MAX_SIMPLE_COLORS);//(counter1 + 1) % MAX_SIMPLE_COLORS;
+
+    if (counter1 == MAX_SIMPLE_COLORS - 1)
+        counter2 = ppm(counter2, MAX_SIMPLE_COLORS);//(counter1 + 1) % MAX_SIMPLE_COLORS;
+
+    for (unsigned int x = 0; x < height; x++) {
+        for (unsigned int y = 0; y < width; y++) {
+            HSV h1 = SIMPLE_COLORS[counter1];
+            HSV h2 = SIMPLE_COLORS[counter2];
+            HSV h3 = {0, 0, 0};
+
+            if (x < 2 || x >= (width - 2)) {
+                h3 = h1;
+            } else if (x < (width / 2)) {
+                h3 = mixHsv(h1, h2, 1.0);
+            } else {
+                //float alpha = (1.0 - (float)(x - (width/2) + 1)/(float)((width/2) - 1));
+                h3 = mixHsv(h1, h2, (1.0 - (float)(x - (width/2) + 1)/(float)((width/2) - 1)));
+            }
+
+            ledArray[rc2iLeds(y, x)] = h3;
+        }
+    }
 }
 
 
@@ -161,3 +189,5 @@ void rainbowBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height)
         }
     }
 }
+
+#endif

@@ -126,6 +126,24 @@ typedef struct {
 #define MAX_BRIGHTNESS BYTE_MAX
 #define MAX_SCAN_VALUE BYTE_MAX
 
+#define H_RED     0
+#define H_GREEN   85
+#define H_BLUE    170
+#define H_YELLOW  42
+#define H_CYAN    127
+#define H_MAGENTA 212
+
+const HSV HSV_RED     = { H_RED, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
+const HSV HSV_GREEN   = { H_GREEN, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
+const HSV HSV_BLUE    = { H_BLUE, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
+const HSV HSV_YELLOW  = { H_YELLOW, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
+const HSV HSV_CYAN    = { H_CYAN, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
+const HSV HSV_MAGENTA = { H_MAGENTA, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
+
+#define MAX_SIMPLE_COLORS 6
+HSV SIMPLE_COLORS[] = {HSV_RED, HSV_GREEN, HSV_BLUE, HSV_YELLOW, HSV_CYAN, HSV_MAGENTA };
+
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * MOTION TYPES AND CONSTANTS  * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -176,9 +194,14 @@ typedef struct {
 #define MAX_RIPPLES 10
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * * * * * * * * * * * * * * OTHER TYPES AND CONSTANTS * * * * * * * * * * * * * * * * * *
+ * * * * * * * * * * * * * * MACROS  * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#define ppm(a, b) ((((a) + 1) % (b)))
 
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * * * * * * * * * * * * * * OTHER TYPES AND CONSTANTS * * * * * * * * * * * * * * * * * *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif //RAINBOWDISPLAYTEST_DEFINES_H
