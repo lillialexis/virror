@@ -127,10 +127,12 @@ void movingCircleBkgTestMode(HSV ledArray[], int width, int height, int updateTi
 
     for (int x = 0; x < height; x++) {
         for (int y = 0; y < width; y++) {
-            int value = getCircleVal(x, y, &circle);
+            float value = getCircleVal(x, y, &circle);
+
+            value = (1.0 - ((1.0 - value) * (1.0 - value)));
 
             if (value) {
-                ledArray[rc2iLeds(x, y)] = {color % 255, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS - value};
+                ledArray[rc2iLeds(x, y)] = {color % 255, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS - (value * MAX_BRIGHTNESS)};
             } else {
                 ledArray[rc2iLeds(x, y)] = {0, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
             }

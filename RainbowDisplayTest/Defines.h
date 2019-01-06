@@ -20,7 +20,7 @@
 
 //#define USING_BKG_TEST_MODES
 #define USING_TEST_MODE_CHANGE_TRIGGERS
-#define USING_MOVING_SCAN_CIRCLE
+//#define USING_MOVING_SCAN_CIRCLE
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -52,8 +52,8 @@
 /* If a mode change isn't triggered by the user, this is how long a mode runs before
  * changing automatically. */
 //#define MODE_CHANGE_DEFAULT_TIMEOUT 100000
-#define MODE_CHANGE_DEFAULT_TIMEOUT 20000
-//#define MODE_CHANGE_DEFAULT_TIMEOUT 2000
+//#define MODE_CHANGE_DEFAULT_TIMEOUT 20000
+#define MODE_CHANGE_DEFAULT_TIMEOUT 2000
 
 /* This is how long it takes the mode to fade in/out */
 #define MODE_CHANGE_FADE_DURATION 127
@@ -100,21 +100,21 @@ typedef struct {
  * * * * * * * * * * * * * * COLOR TYPES AND CONSTANTS * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 typedef struct {
-    unsigned int h;
-    unsigned int s;
-    unsigned int l;
+    byte h;
+    byte s;
+    byte l;
 } HSL;
 
 typedef struct {
-    unsigned int r;
-    unsigned int g;
-    unsigned int b;
+    byte r;
+    byte g;
+    byte b;
 } RGB;
 
 typedef struct {
-    unsigned int h;
-    unsigned int s;
-    unsigned int v;
+    byte h;
+    byte s;
+    byte v;
 } HSV;
 
 #define DEFAULT_SATURATION 255

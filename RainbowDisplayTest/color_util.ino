@@ -121,3 +121,49 @@ HSV rgbToHsv(RGB rgb) {
 
     return hsv;
 }
+
+HSV mixHsv(HSV background, HSV foreground, float foregroundOpacity) {
+    static int counter = 0;
+
+    if (counter == 50) {
+        printHsv("hsv1", background);
+        printHsv("hsv2", foreground);
+    }
+
+    RGB backgroundRGB = hsvToRgb(background);
+    RGB foregroundRGB = hsvToRgb(foreground);
+
+    if (counter == 50) {
+        printRgb("rgb1", backgroundRGB);
+        printRgb("rgb2", foregroundRGB);
+    }
+
+    byte newR = (byte)(((foregroundOpacity * (float)foregroundRGB.r) + ((1 - foregroundOpacity) * (float)backgroundRGB.r)));// % BYTE_MAX;
+    byte newG = (byte)(((foregroundOpacity * (float)foregroundRGB.g) + ((1 - foregroundOpacity) * (float)backgroundRGB.g)));// % BYTE_MAX;
+    byte newB = (byte)(((foregroundOpacity * (float)foregroundRGB.b) + ((1 - foregroundOpacity) * (float)backgroundRGB.b)));// % BYTE_MAX;
+
+    RGB rgb = { newR, newG, newB };
+    HSV hsv = rgbToHsv(rgb);
+
+    if (counter == 50) {
+        printRgb("new rgb", rgb);
+        printHsv("new hsv", hsv);
+    }
+
+    counter++;
+
+    return hsv;
+}
+
+void printColor(String label, byte a, byte b, byte c) {
+    String str = label;
+    Serial.println(str + ": { " + a + ", " + b + ", " + c + " }");
+}
+
+void printHsv(String label, HSV hsv) {
+    printColor(label, hsv.h, hsv.s, hsv.v);
+}
+
+void printRgb(String label, RGB rgb) {
+    printColor(label, rgb.r, rgb.g, rgb.b);
+}
