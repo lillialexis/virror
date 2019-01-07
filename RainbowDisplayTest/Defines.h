@@ -84,16 +84,16 @@ typedef struct {
  * to values that make sense and are the right amount of "sensitive" once we have the real scan
  * hardware set up. */
 #ifdef USING_MODE_CHANGE_DEV_BOUNDARIES
-#define MODE_CHANGE_DETECTION_THRESHOLD 100
+#define MODE_CHANGE_DETECTION_THRESHOLD 5000
 #define MODE_CHANGE_DETECTION_WIDTH     4//15 // TODO: Change once scaling is implemented
 #define MODE_CHANGE_DETECTION_HEIGHT    4//3 // TODO: Change once scaling is implemented
 #define POS_COUNTER_TIMEOUT   300
 #define NEG_COUNTER_TIMEOUT   100
 #else
-#define MODE_CHANGE_DETECTION_THRESHOLD 40
+#define MODE_CHANGE_DETECTION_THRESHOLD 5000 // TODO: Set to realistic values
 #define MODE_CHANGE_DETECTION_WIDTH     15
 #define MODE_CHANGE_DETECTION_HEIGHT    3
-#define POS_COUNTER_TIMEOUT   200
+#define POS_COUNTER_TIMEOUT   300
 #define NEG_COUNTER_TIMEOUT   100
 #endif
 
