@@ -50,30 +50,27 @@ void addData() {
 #ifdef USING_MOVING_SCAN_CIRCLE
     static Circle circle = {0.0, 0.0, SCAN_WIDTH, SCAN_HEIGHT, 0.25, 1.0, LEFT, DOWN, 4.0};
 
-    moveCounter++;
-    if (moveCounter < MOVE_CIRCLE_TIMEOUT) {
-        return;
+    if (moveCounter % MOVE_CIRCLE_TIMEOUT == 0) {
+        moveCircle(&circle);
     }
 
-    moveCircle(&circle);
-
 #else
-    static Circle circle = {SCAN_WIDTH / 2, SCAN_HEIGHT / 2, SCAN_WIDTH, SCAN_HEIGHT, 0.25, 1.0, LEFT, DOWN, 2.0};
+    static Circle circle = {(SCAN_WIDTH / 4) * 3, (SCAN_HEIGHT / 4) * 3, SCAN_WIDTH, SCAN_HEIGHT, 0.25, 1.0, LEFT, DOWN, 9.0};
 #endif
 
     for (int x = 0; x < SCAN_HEIGHT; x++) {
         for (int y = 0; y < SCAN_WIDTH; y++) {
-            int value = getCircleVal(x, y, &circle);
+            float value = getCircleVal(x, y, &circle);
 
             if (value) {
-                rawScanArray[rc2iScan(x, y)] = value;
+                rawScanArray[rc2iScan(x, y)] = (1.0 - ((1.0 - value) * (1.0 - value))) * MAX_SCAN_VALUE;
             } else {
                 rawScanArray[rc2iScan(x, y)] = 0;
             }
         }
     }
 
-    moveCounter = 0;
+    moveCounter++;
 }
 
 void addLeftTrigger() {
@@ -85,10 +82,10 @@ void addLeftTrigger() {
 
     for (int i = 0; i < MODE_CHANGE_DETECTION_WIDTH; i++) {
         for (int j = 0; j < MODE_CHANGE_DETECTION_HEIGHT; j++) { // TODO: If the scan data comes in from the bottom, flip these conditions
-            int value = getCircleVal(i, j, &circle);
+            float value = getCircleVal(i, j, &circle);
 
             if (value) {
-                rawScanArray[rc2iScan(j, i)] = value;
+                rawScanArray[rc2iScan(j, i)] = (1.0 - ((1.0 - value) * (1.0 - value))) * MAX_SCAN_VALUE;
             }
         }
     }
@@ -103,10 +100,10 @@ void addRightTrigger() {
 
     for (int i = SCAN_WIDTH - MODE_CHANGE_DETECTION_WIDTH; i < SCAN_WIDTH; i++) {
         for (int j = 0; j < MODE_CHANGE_DETECTION_HEIGHT; j++) { // TODO: If the scan data comes in from the bottom, flip these conditions
-            int value = getCircleVal(i, j, &circle);
+            float value = getCircleVal(i, j, &circle);
 
             if (value) {
-                rawScanArray[rc2iScan(j, i)] = value;
+                rawScanArray[rc2iScan(j, i)] = (1.0 - ((1.0 - value) * (1.0 - value))) * MAX_SCAN_VALUE;
             }
         }
     }

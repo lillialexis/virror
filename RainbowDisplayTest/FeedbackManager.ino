@@ -92,12 +92,12 @@ void applyRipple(Ripple ripple, unsigned int width, unsigned int height) {
             float distance = dist(ripple.x, ripple.y, x, y);
 
             if (distance < currentOuterRadius && distance > currentInnerRadius) {
-                feedbackArray[rc2iLeds(y, x)] = ((ripple.radius - distance) / ripple.radius) * (1.0 - percentThrough) * 0.50;
-
-                // TODO: Mix with other ripples
+                feedbackArray[rc2iLeds(y, x)] =
+                        min(1.0, feedbackArray[rc2iLeds(y, x)] +
+                                    ((ripple.radius - distance) / ripple.radius) * (1.0 - percentThrough) * 0.50);
             }
 
-            // TODO: Add waves and stuff
+            // TODO: Add multiple waves and stuff
         }
     }
 }

@@ -18,9 +18,10 @@
 
 #define RESET_MODE_CHANGE_TRIGGERS_ON_POSITIVE // TODO: Test which is better with real sensor data
 
-//#define USING_BKG_TEST_MODES
-#define USING_TEST_MODE_CHANGE_TRIGGERS
-#define USING_MOVING_SCAN_CIRCLE
+#define USING_BKG_TEST_MODES
+#define USING_MODE_CHANGE_DEV_BOUNDARIES
+//#define USING_MOVING_SCAN_CIRCLE
+#define USING_EMPTY_SCAN_DATA
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -52,8 +53,8 @@
 /* If a mode change isn't triggered by the user, this is how long a mode runs before
  * changing automatically. */
 //#define MODE_CHANGE_DEFAULT_TIMEOUT 100000
-#define MODE_CHANGE_DEFAULT_TIMEOUT 20000
-//#define MODE_CHANGE_DEFAULT_TIMEOUT 2000
+//#define MODE_CHANGE_DEFAULT_TIMEOUT 20000
+#define MODE_CHANGE_DEFAULT_TIMEOUT 2000
 
 /* This is how long it takes the mode to fade in/out */
 #define MODE_CHANGE_FADE_DURATION 127
@@ -82,7 +83,7 @@ typedef struct {
  * MODE_CHANGE_DETECTION_THRESHOLD, a mode change is triggered. We can tweak these constants
  * to values that make sense and are the right amount of "sensitive" once we have the real scan
  * hardware set up. */
-#ifdef USING_TEST_MODE_CHANGE_TRIGGERS
+#ifdef USING_MODE_CHANGE_DEV_BOUNDARIES
 #define MODE_CHANGE_DETECTION_THRESHOLD 100
 #define MODE_CHANGE_DETECTION_WIDTH     4//15 // TODO: Change once scaling is implemented
 #define MODE_CHANGE_DETECTION_HEIGHT    4//3 // TODO: Change once scaling is implemented
@@ -100,21 +101,21 @@ typedef struct {
  * * * * * * * * * * * * * * COLOR TYPES AND CONSTANTS * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 typedef struct {
-    unsigned int h;
-    unsigned int s;
-    unsigned int l;
+    byte h;
+    byte s;
+    byte l;
 } HSL;
 
 typedef struct {
-    unsigned int r;
-    unsigned int g;
-    unsigned int b;
+    byte r;
+    byte g;
+    byte b;
 } RGB;
 
 typedef struct {
-    unsigned int h;
-    unsigned int s;
-    unsigned int v;
+    byte h;
+    byte s;
+    byte v;
 } HSV;
 
 #define DEFAULT_SATURATION 255
@@ -124,6 +125,24 @@ typedef struct {
 #define MAX_SATURATION BYTE_MAX
 #define MAX_BRIGHTNESS BYTE_MAX
 #define MAX_SCAN_VALUE BYTE_MAX
+
+#define H_RED     0
+#define H_GREEN   85
+#define H_BLUE    170
+#define H_YELLOW  42
+#define H_CYAN    127
+#define H_MAGENTA 212
+
+const HSV HSV_RED     = { H_RED, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
+const HSV HSV_GREEN   = { H_GREEN, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
+const HSV HSV_BLUE    = { H_BLUE, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
+const HSV HSV_YELLOW  = { H_YELLOW, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
+const HSV HSV_CYAN    = { H_CYAN, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
+const HSV HSV_MAGENTA = { H_MAGENTA, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
+
+#define MAX_SIMPLE_COLORS 6
+HSV SIMPLE_COLORS[] = {HSV_RED, HSV_GREEN, HSV_BLUE, HSV_YELLOW, HSV_CYAN, HSV_MAGENTA };
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * MOTION TYPES AND CONSTANTS  * * * * * * * * * * * * * * * * *
@@ -175,9 +194,14 @@ typedef struct {
 #define MAX_RIPPLES 10
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * * * * * * * * * * * * * * OTHER TYPES AND CONSTANTS * * * * * * * * * * * * * * * * * *
+ * * * * * * * * * * * * * * MACROS  * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#define ppm(a, b) ((((a) + 1) % (b)))
 
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * * * * * * * * * * * * * * OTHER TYPES AND CONSTANTS * * * * * * * * * * * * * * * * * *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif //RAINBOWDISPLAYTEST_DEFINES_H

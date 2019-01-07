@@ -1,5 +1,6 @@
 
-// TODO: Probably convert to macros (saves programming space maybe?)
+
+// TODO: Possibly convert to macros? (Saves programming space/execution time or not?)
 int rc2iScan(int row, int col) {
 	return (row * SCAN_WIDTH) + col;
 }

@@ -51,13 +51,14 @@ void moveCircle(Circle *circle) {
  * @param x
  * @param y
  * @param c
- * @return a value between 0-100, representing distance gradient from circle squared
+ * @return a value between 0-1.0, representing distance gradient from circle squared
  */
-int getCircleVal(int x, int y, Circle *circle) {
+float getCircleVal(int x, int y, Circle *circle) {
     float distance = dist(circle->x, circle->y, x, y);
     if (distance <= circle->radius) {
-        return (100.0 - (((distance / circle->radius) * (distance / circle->radius)) * 100.0));
+        return (1.0 - (distance / circle->radius));
+        ///*(1.0 - */((1 - (distance / circle->radius)) * (1 - (distance / circle->radius)));//);
     }
 
-    return 0;
+    return 0.0;
 }

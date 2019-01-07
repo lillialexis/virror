@@ -5,8 +5,11 @@ ModeVariants foregroundModeVariants = {0, 0, 0, 0, 0};
 
 int foregroundMode = 0;
 enum foregroundModes {
-    DARK_MODE,
-    BLUE_MODE,
+    //RAINBOW_FGD_MODE,
+//    DARK_FGD_MODE,
+//    LIGHT_FGD_MODE,
+            BLUE_FGD_MODE,
+    GREEN_FGD_MODE,
     FOREGROUND_MODES_COUNT
 };
 
@@ -34,14 +37,20 @@ void applyForeground(int scanArray[], HSV ledArray[], unsigned int width, unsign
     }
 
     switch (foregroundMode) {
-        case DARK_MODE:
-            darken(scanArray, ledArray, width, height);
+//        case DARK_FGD_MODE:
+//            darkenFgdMode(scanArray, ledArray, width, height);
+//            break;
+//        case LIGHT_FGD_MODE:
+//            lightedFgdMode(scanArray, ledArray, width, height);
+//            break;
+        case BLUE_FGD_MODE:
+            blueFgdMode(scanArray, ledArray, width, height);
             break;
-        case BLUE_MODE:
-            blue(scanArray, ledArray, width, height);
+        case GREEN_FGD_MODE:
+            greenFgdMode(scanArray, ledArray, width, height);
             break;
         default:
-            blue(scanArray, ledArray, width, height);
+            blueFgdMode(scanArray, ledArray, width, height);
             break;
     }
 }
@@ -54,39 +63,57 @@ void applyForegroundAlpha(int scanArray[], unsigned int width, unsigned int heig
     }
 }
 
-void rainbow(int scanArray[], HSV ledArray[], int width, int height) {
+void rainbowFgdMode(int scanArray[], HSV ledArray[], int width, int height) {
     for (int i = 0; i < width * height; i++) {
         if (scanArray[i]) {
-            HSV hsv = ledArray[i];
+            HSV hsv1 = ledArray[i];
+            HSV hsv2 = { 255 - (((float) scanArray[i] / MAX_SCAN_VALUE) * 255.0), DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
 
-            hsv.h = 255 - (((float) scanArray[i] / 100.0) * 255.0);
-
-            ledArray[i] = hsv;
+            ledArray[i] = mixHsv(hsv1, hsv2, ((float) scanArray[i] / MAX_SCAN_VALUE));
         }
     }
 }
 
-void blue(int scanArray[], HSV ledArray[], int width, int height) {
+void darkenFgdMode(int scanArray[], HSV ledArray[], int width, int height) {
     for (int i = 0; i < width * height; i++) {
         if (scanArray[i]) {
-            HSV hsv = ledArray[i];
+            HSV hsv1 = ledArray[i];
+            HSV hsv2 = { 0, DEFAULT_SATURATION, 0 };
 
-            hsv.h = 60;
-            hsv.v = 255 - (((float) scanArray[i] / 100.0) * 255.0);
-
-            ledArray[i] = hsv;
+            ledArray[i] = mixHsv(hsv1, hsv2, ((float) scanArray[i] / MAX_SCAN_VALUE));
         }
     }
 }
 
-void darken(int scanArray[], HSV ledArray[], int width, int height) {
+void lightedFgdMode(int scanArray[], HSV ledArray[], int width, int height) {
     for (int i = 0; i < width * height; i++) {
         if (scanArray[i]) {
-            HSV hsv = ledArray[i];
+            HSV hsv1 = ledArray[i];
+            HSV hsv2 = { 0, 0, DEFAULT_BRIGHTNESS };
 
-            hsv.v = 255 - (((float) scanArray[i] / 100.0) * 255.0);
+            ledArray[i] = mixHsv(hsv1, hsv2, ((float) scanArray[i] / MAX_SCAN_VALUE));
+        }
+    }
+}
 
-            ledArray[i] = hsv;
+void blueFgdMode(int scanArray[], HSV ledArray[], int width, int height) {
+    for (int i = 0; i < width * height; i++) {
+        if (scanArray[i]) {
+            HSV hsv1 = ledArray[i];
+            HSV hsv2 = { 170, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
+
+            ledArray[i] = mixHsv(hsv1, hsv2, ((float) scanArray[i] / MAX_SCAN_VALUE));
+        }
+    }
+}
+
+void greenFgdMode(int scanArray[], HSV ledArray[], int width, int height) {
+    for (int i = 0; i < width * height; i++) {
+        if (scanArray[i]) {
+            HSV hsv1 = ledArray[i];
+            HSV hsv2 = { 85, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS };
+
+            ledArray[i] = mixHsv(hsv1, hsv2, ((float) scanArray[i] / MAX_SCAN_VALUE));
         }
     }
 }

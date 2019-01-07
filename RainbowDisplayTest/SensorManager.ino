@@ -104,6 +104,10 @@ void scaleScan(int scaledScanArray[], int width, int height) {
 }
 
 int scan(int scaledScanArray[], int width, int height) {
+#ifdef USING_EMPTY_SCAN_DATA
+    return NO_MODE_CHANGE;
+#endif
+
     int modeChangeFlag = NO_MODE_CHANGE;
 
     readScan();
