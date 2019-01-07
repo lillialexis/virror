@@ -25,7 +25,11 @@ void backgroundTestSetup() {
 }
 
 void setBackgroundTestModeVariants(ModeVariants modeVariants) {
-    backgroundTestModeVariants = modeVariants;
+    backgroundTestModeVariants.modeVariant1 = modeVariants.modeVariant1;
+    backgroundTestModeVariants.modeVariant2 = modeVariants.modeVariant2;
+    backgroundTestModeVariants.modeVariant3 = modeVariants.modeVariant3;
+    backgroundTestModeVariants.modeVariant4 = modeVariants.modeVariant4;
+    backgroundTestModeVariants.modeVariant5 = modeVariants.modeVariant5;
 }
 
 void newTestBackgroundMode() {

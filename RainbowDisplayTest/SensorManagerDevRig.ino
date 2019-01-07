@@ -110,8 +110,15 @@ void addRightTrigger() {
 }
 
 ModeVariants getModeVariants() {
-    // TODO: Implement with rotating test data
-    return {1, 2, 3, 4, 255};
+
+    ModeVariants mvs;
+    mvs.modeVariant1 = micros() % 2; // I dunno, kind of random enough...
+    mvs.modeVariant2 = micros() % 3;
+    mvs.modeVariant3 = micros() % 4;
+    mvs.modeVariant4 = micros() % 5;
+    mvs.modeVariant5 = micros() % 256;
+
+    return mvs;
 }
 #endif
 

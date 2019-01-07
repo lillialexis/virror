@@ -18,7 +18,7 @@
 
 #define RESET_MODE_CHANGE_TRIGGERS_ON_POSITIVE // TODO: Test which is better with real sensor data
 
-#define USING_BKG_TEST_MODES
+//#define USING_BKG_TEST_MODES
 #define USING_MODE_CHANGE_DEV_BOUNDARIES
 //#define USING_MOVING_SCAN_CIRCLE
 #define USING_EMPTY_SCAN_DATA

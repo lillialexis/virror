@@ -4,7 +4,7 @@
 #define RAINBOW_MODE_PHASE_SHIFT   10
 #define RAINBOW_MODE_SHIFT_TIMEOUT 20
 
-ModeVariants backgroundModeVariants = {0, 0, 0, 0, 0}; // TODO: Am I stepping on memory with the way this is implemented?
+ModeVariants backgroundModeVariants = {0, 0, 0, 0, 0};
 
 //int rainbowColors[127];
 
@@ -34,7 +34,11 @@ void setBackgroundModeVariants(ModeVariants modeVariants) {
     setBackgroundTestModeVariants(modeVariants);
 #else
 
-    backgroundModeVariants = modeVariants;
+    backgroundModeVariants.modeVariant1 = modeVariants.modeVariant1;
+    backgroundModeVariants.modeVariant2 = modeVariants.modeVariant2;
+    backgroundModeVariants.modeVariant3 = modeVariants.modeVariant3;
+    backgroundModeVariants.modeVariant4 = modeVariants.modeVariant4;
+    backgroundModeVariants.modeVariant5 = modeVariants.modeVariant5;
 #endif
 }
 
@@ -61,7 +65,7 @@ void applyBackground(HSV ledArray[], unsigned int width, unsigned int height,
 
     switch (backgroundMode) {
         case RAINBOW_BKG_MODE: {
-            rainbowBkgMode(ledArray, width, height, RAINBOW_MODE_PHASE_SHIFT, RAINBOW_MODE_SHIFT_TIMEOUT);
+            rainbowBkgMode(ledArray, width, height);
             break;
         }
 
@@ -108,7 +112,14 @@ void redBkgMode(HSV ledArray[], int width, int height) {
 // the entire 360 degrees of the color wheel:
 // Red -> Orange -> Yellow -> Green -> Blue -> Violet -> Red
 //
-void rainbowBkgMode(HSV ledArray[], int width, int height, int phaseShift, int updateTimeout) {
+void rainbowBkgMode(HSV ledArray[], int width, int height) {
+    /* Example using the pseudo-random modeVariants, captured from scan data at
+     * time of mode beginning, to set things like speed, offset, and direction. */
+    int updateTimeout = (backgroundModeVariants.modeVariant3 * 5);
+    int phaseShift    = (backgroundModeVariants.modeVariant4 * 1);
+    int direction     = (backgroundModeVariants.modeVariant1 ? 1 : -1);
+    int offset        = (backgroundModeVariants.modeVariant5 * 1);
+
     static unsigned int colorIndex = 0;
     static unsigned int colorChangeCounter = 0;
 
@@ -119,7 +130,7 @@ void rainbowBkgMode(HSV ledArray[], int width, int height, int phaseShift, int u
 
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
-            unsigned int color = (colorIndex + x + y * phaseShift / 2) % 255;
+            unsigned int color = (colorIndex + offset + x + y * phaseShift / 2 * direction) % 256;
 
             ledArray[rc2iLeds(y, x)] = {color, DEFAULT_SATURATION, DEFAULT_BRIGHTNESS};
         }

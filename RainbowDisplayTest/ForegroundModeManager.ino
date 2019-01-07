@@ -18,7 +18,11 @@ void foregroundSetup() {
 }
 
 void setForegroundModeVariants(ModeVariants modeVariants) {
-    foregroundModeVariants = modeVariants;
+    foregroundModeVariants.modeVariant1 = modeVariants.modeVariant1;
+    foregroundModeVariants.modeVariant2 = modeVariants.modeVariant2;
+    foregroundModeVariants.modeVariant3 = modeVariants.modeVariant3;
+    foregroundModeVariants.modeVariant4 = modeVariants.modeVariant4;
+    foregroundModeVariants.modeVariant5 = modeVariants.modeVariant5;
 }
 
 void newForegroundMode() {
