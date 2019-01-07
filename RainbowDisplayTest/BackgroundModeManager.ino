@@ -11,7 +11,7 @@ ModeVariants backgroundModeVariants = {0, 0, 0, 0, 0};
 int backgroundMode = 0;
 enum backgroundModes {
         RAINBOW_BKG_MODE,
-        RED_BKG_MODE,
+        //RED_BKG_MODE,
         BACKGROUND_MODES_COUNT
 };
 
@@ -69,10 +69,10 @@ void applyBackground(HSV ledArray[], unsigned int width, unsigned int height,
             break;
         }
 
-        case RED_BKG_MODE: {
-            redBkgMode(ledArray, width, height);
-            break;
-        }
+//        case RED_BKG_MODE: {
+//            redBkgMode(ledArray, width, height);
+//            break;
+//        }
 
         default: {
             redBkgMode(ledArray, width, height);
@@ -115,10 +115,10 @@ void redBkgMode(HSV ledArray[], int width, int height) {
 void rainbowBkgMode(HSV ledArray[], int width, int height) {
     /* Example using the pseudo-random modeVariants, captured from scan data at
      * time of mode beginning, to set things like speed, offset, and direction. */
-    int updateTimeout = (backgroundModeVariants.modeVariant3 * 5);
-    int phaseShift    = (backgroundModeVariants.modeVariant4 * 1);
+    int updateTimeout = ((backgroundModeVariants.modeVariant3 + 1) * 10);
     int direction     = (backgroundModeVariants.modeVariant1 ? 1 : -1);
-    int offset        = (backgroundModeVariants.modeVariant5 * 1);
+    int phaseShift    = (backgroundModeVariants.modeVariant5 / 2);
+    int offset        = (backgroundModeVariants.modeVariant5 / 2);
 
     static unsigned int colorIndex = 0;
     static unsigned int colorChangeCounter = 0;

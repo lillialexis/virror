@@ -118,6 +118,19 @@ ModeVariants getModeVariants() {
     mvs.modeVariant4 = micros() % 5;
     mvs.modeVariant5 = micros() % 256;
 
+    Serial.print("-----------------\nmvs: { ");
+    Serial.print(mvs.modeVariant1);
+    Serial.print(", ");
+    Serial.print(mvs.modeVariant2);
+    Serial.print(", ");
+    Serial.print(mvs.modeVariant3);
+    Serial.print(", ");
+    Serial.print(mvs.modeVariant4);
+    Serial.print(", ");
+    Serial.print(mvs.modeVariant5);
+    Serial.print(" }\n");
+
+
     return mvs;
 }
 #endif
