@@ -68,7 +68,7 @@ void getFrame(int scanArray[], HSV ledArray[], int width, int height) {
         /* If we're fading out... */
 
         if (backgroundModeTimeoutCounter >= MODE_CHANGE_FADE_DURATION) {
-            //setBackgroundModeVariants(getModeVariants());
+            setBackgroundModeVariants(getModeVariants());
             newBackgroundMode();
 
             backgroundState = MODE_STATE_FADING_IN;

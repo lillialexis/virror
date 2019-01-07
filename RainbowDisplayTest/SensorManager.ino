@@ -14,8 +14,43 @@ void readScan() {
 }
 
 ModeVariants getModeVariants() {
-    // TODO: Implement
-    return {1, 2, 3, 4, 255};
+
+    ModeVariants mvs;
+
+    for (unsigned int x = (SCAN_WIDTH / 4); x < ((SCAN_WIDTH / 4) * 3)); x++) {
+
+        unsigned int sum = 0;
+        for (unsigned int y = 2; y < 4; y++) {
+            sum += rawScanArray[rc2iScan(y, x)];
+        }
+        mvs.modeVariant1 = sum % 2;
+
+        sum = 0;
+        for (unsigned int y = 2; y < 4; y++) {
+            sum += rawScanArray[rc2iScan(y, x)];
+        }
+        mvs.modeVariant2 = sum % 3;
+
+        sum = 0;
+        for (unsigned int y = 2; y < 4; y++) {
+            sum += rawScanArray[rc2iScan(y, x)];
+        }
+        mvs.modeVariant3 = sum % 4;
+
+        sum = 0;
+        for (unsigned int y = 2; y < 4; y++) {
+            sum += rawScanArray[rc2iScan(y, x)];
+        }
+        mvs.modeVariant4 = sum % 5;
+
+        sum = 0;
+        for (unsigned int y = 2; y < 4; y++) {
+            sum += rawScanArray[rc2iScan(y, x)];
+        }
+        mvs.modeVariant5 = sum % 256;
+    }
+
+    return mvs;
 }
 #endif
 
@@ -157,7 +192,7 @@ void scaleScan(int scaledScanArray[], int width, int height) {
                 kernel[i] = rawScanArray[rc2iScan(scaled_y, (scan_x_left + i))];
             }
 
-            scaledScanArray[rc2iLed(y, x)] = sampled(kernel, kernel_width, scaled_x, x_delta);
+            scaledScanArray[rc2iLeds(y, x)] = sampled(kernel, kernel_width, scaled_x, x_delta);
         }
     }
 }
