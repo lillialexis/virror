@@ -60,7 +60,7 @@ void getFrame(int scanArray[], HSV ledArray[], int width, int height) {
                 }
 
         } else {
-            //backgroundModeTimeoutCounter++;
+            backgroundModeTimeoutCounter++;
 
         }
 

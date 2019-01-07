@@ -12,11 +12,11 @@ enum backgroundTestModes {
 //    RAINBOW_BKG_TEST_MODE,
 //    MOVING_CIRCLE_BKG_TEST_MODE,
 //    RED_BKG_TEST_MODE,
-//    RED_GRADIENT_BKG_TEST_MODE,
-//    RED_SATURATION_GRADIENT_BKG_TEST_MODE,
-//    RED_BRIGHTNESS_GRADIENT_BKG_TEST_MODE,
+    GRADIENT_BKG_TEST_MODE,
+    SATURATION_BKG_TEST_MODE,
+    BRIGHTNESS_BKG_TEST_MODE,
 //    COLOR_MIX_BKG_TEST_MODE,
-    COLOR_TRANSITION_BKG_TEST_MODE,
+//    COLOR_TRANSITION_BKG_TEST_MODE,
     BACKGROUND_TEST_MODES_COUNT
 };
 
@@ -56,30 +56,30 @@ void applyTestBackground(HSV ledArray[], unsigned int width, unsigned int height
 //            break;
 //        }
 
-//        case RED_GRADIENT_BKG_TEST_MODE: {
-//            redBkgGradientTestMode(ledArray, width, height);
-//            break;
-//        }
+        case GRADIENT_BKG_TEST_MODE: {
+            gradientBkgTestMode(ledArray, width, height, backgroundModeFrame);
+            break;
+        }
 
-//        case RED_SATURATION_GRADIENT_BKG_TEST_MODE: {
-//            redBkgSaturationGradientTestMode(ledArray, width, height);
-//            break;
-//        }
+        case SATURATION_BKG_TEST_MODE: {
+            saturationBkgTestMode(ledArray, width, height, backgroundModeFrame);
+            break;
+        }
 
-//        case RED_BRIGHTNESS_GRADIENT_BKG_TEST_MODE: {
-//            redBkgBrightnessGradientTestMode(ledArray, width, height);
-//            break;
-//        }
+        case BRIGHTNESS_BKG_TEST_MODE: {
+            brightnessBkgTestMode(ledArray, width, height, backgroundModeFrame);
+            break;
+        }
 
 //        case COLOR_MIX_BKG_TEST_MODE: {
 //            colorMixBkgTestMode(ledArray, width, height, backgroundModeFrame);
 //            break;
 //        }
 
-        case COLOR_TRANSITION_BKG_TEST_MODE: {
-            colorTransitionBkgTestMode(ledArray, width, height, backgroundModeFrame);
-            break;
-        }
+//        case COLOR_TRANSITION_BKG_TEST_MODE: {
+//            colorTransitionBkgTestMode(ledArray, width, height, backgroundModeFrame);
+//            break;
+//        }
 
         default: {
             redBkgTestMode(ledArray, width, height);
@@ -87,6 +87,7 @@ void applyTestBackground(HSV ledArray[], unsigned int width, unsigned int height
         }
     }
 }
+
 
 void redBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height) {
     for (unsigned int x = 0; x < width; x++) {
@@ -96,33 +97,37 @@ void redBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height) {
     }
 }
 
-void redBkgGradientTestMode(HSV ledArray[], unsigned int width, unsigned int height) {
+byte btmHueScroll(unsigned int frame) {
+    return ((frame / 200) % 255);
+}
+
+void gradientBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height, unsigned int frame) {
     for (unsigned int x = 0; x < width; x++) {
         for (unsigned int y = 0; y < height; y++) {
-            byte saturation = ((float) y / (float) height) * DEFAULT_SATURATION;
-            byte value = ((float) x / (float) width) * DEFAULT_BRIGHTNESS;
+            byte saturation = (((float) y + 1) / (float) height) * DEFAULT_SATURATION;
+            byte value = (((float) x + 1) / (float) width) * DEFAULT_BRIGHTNESS;
 
-            ledArray[rc2iLeds(y, x)] = { 0, saturation, value };
+            ledArray[rc2iLeds(y, x)] = { btmHueScroll(frame), saturation, value };
         }
     }
 }
 
-void redBkgSaturationGradientTestMode(HSV ledArray[], unsigned int width, unsigned int height) {
+void saturationBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height, unsigned int frame) {
     for (unsigned int x = 0; x < width; x++) {
         for (unsigned int y = 0; y < height; y++) {
             byte saturation = ((float) x / (float) width) * DEFAULT_SATURATION;
 
-            ledArray[rc2iLeds(y, x)] = { 0, saturation, DEFAULT_BRIGHTNESS };
+            ledArray[rc2iLeds(y, x)] = { btmHueScroll(frame), saturation, DEFAULT_BRIGHTNESS };
         }
     }
 }
 
-void redBkgBrightnessGradientTestMode(HSV ledArray[], unsigned int width, unsigned int height) {
+void brightnessBkgTestMode(HSV ledArray[], unsigned int width, unsigned int height, unsigned int frame) {
     for (unsigned int x = 0; x < width; x++) {
         for (unsigned int y = 0; y < height; y++) {
             byte value = ((float) x / (float) width) * DEFAULT_BRIGHTNESS;
 
-            ledArray[rc2iLeds(y, x)] = { 0, DEFAULT_SATURATION, value };
+            ledArray[rc2iLeds(y, x)] = { btmHueScroll(frame), DEFAULT_SATURATION, value };
         }
     }
 }
